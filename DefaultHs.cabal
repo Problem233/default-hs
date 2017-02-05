@@ -3,7 +3,7 @@ version:             0.1.0.0
 synopsis:            Junk code
 description:         Please see README.md
 homepage:            https://github.com/problem233/DefaultHs#readme
-license:             WTFPL
+license:             OtherLicense
 license-file:        LICENSE
 author:              Problem233
 maintainer:          problem233@outlook.com

@@ -31,6 +31,8 @@ isLineTerminator c = (c == '\r') || (c == '\n')
 
 pow :: Integral b => Rational -> b -> Rational
 pow = powtailrec 1
-  where powtailrec p x n | n < 0 = 1 / pow x (- n)
-                         | n == 0 = p
-                         | otherwise = powtailrec (p * x) x (n - 1)
+  where powtailrec p x n
+          | x == 1 = 1
+          | n < 0 = 1 / pow x (- n)
+          | n == 0 = p
+          | otherwise = powtailrec (p * x) x (n - 1)

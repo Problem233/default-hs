@@ -1,44 +1,36 @@
-module Lib (mainFunc, DateTime) where
+module Lib (
+  qsortBy,
+  qsort,
+  splitLines,
+  isLineTerminator,
+  pow) where
 
+import System.IO
 import qualified Data.List as List
 
-mainFunc :: IO ()
-mainFunc = print $ DateTime 2017 2 5 20 33 0
-
-repeat' :: a -> [a]
-repeat' x = x : repeat' x
-
-replicate' :: Int -> a -> [a]
-replicate' num x = take num (repeat' x)
+qsortBy :: [a] -> (a -> a -> Bool) -> [a]
+qsortBy [] _ = []
+qsortBy (x : xs) lt =
+  let (smaller, greater) = List.partition (lt x) xs
+  in qsortBy smaller lt ++ x : qsortBy greater lt
 
 qsort :: Ord a => [a] -> [a]
-qsort [] = []
-qsort (x : xs) =
-  let (smaller, greater) = List.partition (<= x) xs
-  in qsort smaller ++ x : qsort greater
+qsort xs = xs `qsortBy` (<=)
 
-formatLength :: Show a => Int -> Char -> a -> String
-formatLength l d a =
-  let str = show a
-      len = length str
-  in if len < l then replicate' (l - len) d ++ str
-                else str
+splitLines :: String -> [String]
+splitLines str =
+  let (pre, suf) = break isLineTerminator str
+  in pre : case suf of
+    ('\r' : '\n' : rest) -> splitLines rest
+    ('\r' : rest) -> splitLines rest
+    ('\n' : rest) -> splitLines rest
+    _ -> []
 
-data DateTime = DateTime {
-  year :: Integer,
-  month :: Integer,
-  day :: Integer,
-  hour :: Integer,
-  minute :: Integer,
-  second :: Integer
-}
+isLineTerminator :: Char -> Bool
+isLineTerminator c = (c == '\r') || (c == '\n')
 
-instance Show DateTime where
-  show t =
-    show (f year) ++ "." ++
-    show (f month) ++ "." ++
-    show (f day) ++ " " ++
-    show (f hour) ++ ":" ++
-    show (f minute) ++ ":" ++
-    show (f second)
-    where f x = formatLength 2 '0' (x t)
+pow :: Integral b => Rational -> b -> Rational
+pow = powtailrec 1
+  where powtailrec p x n | n < 0 = 1 / pow x (- n)
+                         | n == 0 = p
+                         | otherwise = powtailrec (p * x) x (n - 1)

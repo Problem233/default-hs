@@ -1,4 +1,4 @@
 import Lib
 
 main :: IO ()
-main = putStrLn "test"
+main = print (2 `pow` (10 `pow` 8))

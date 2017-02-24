@@ -3,7 +3,8 @@ module Lib (
   qsort,
   splitLines,
   isLineTerminator,
-  pow) where
+  pow,
+  primes) where
 
 import System.IO
 import qualified Data.List as List
@@ -36,3 +37,8 @@ pow = powtailrec 1
           | n < 0 = 1 / pow x (- n)
           | n == 0 = p
           | otherwise = powtailrec (p * x) x (n - 1)
+
+primes :: [Integer]
+primes = filterPrimes [2..]
+  where filterPrimes (x : xs) = x : filterPrimes
+          (filter ((/= 0) . (`rem` x)) xs)

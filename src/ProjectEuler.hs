@@ -54,4 +54,22 @@ answer2_1 = loop 0 1 2
 answer2_2 :: Integer
 answer2_2 =
   sum $ filter even (takeWhile (<= 4000000) $ fib 1 2)
-    where fib a b = a : fib b apb where apb = a + b
+  where fib a b = a : fib b apb where apb = a + b
+
+-- Problem 3: Largest prime factor
+-- --
+-- The prime factors of 13195 are 5, 7, 13 and 29.
+-- What is the largest prime factor of the number
+-- 600851475143 ?
+-- --
+-- Answer: 6857
+
+-- answer3_1: O(n)
+-- BUG 算法有问题，但结果正确
+answer3_1 :: Integer
+answer3_1 = find 600851475143 2 2
+  where find num f r
+          | f > index = r
+          | num `rem` f == 0 = find (num `quot` f) (f + 1) f
+          | otherwise = find num (f + 1) r
+        index = ceiling $ sqrt 600851475143

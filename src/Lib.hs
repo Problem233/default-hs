@@ -1,8 +1,6 @@
 module Lib (
-  qsortBy,
-  qsort,
-  splitLines,
-  isLineTerminator,
+  qsortBy, qsort,
+  splitLines, isLineTerminator,
   pow,
   primes) where
 

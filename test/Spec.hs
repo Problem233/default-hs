@@ -1,4 +1,4 @@
-import Lib
+import Math
 
 main :: IO ()
-main = print (2 `pow` (10 `pow` 8))
+main = print (searchPythagoreanTriple 1000000)

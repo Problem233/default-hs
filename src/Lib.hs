@@ -1,16 +1,16 @@
 module Lib (
   qsortBy, qsort,
   splitLines, isLineTerminator,
-  pow,
-  primes) where
+  fullPermutation,
+  unicode) where
 
 import System.IO
-import qualified Data.List as List
+import Data.List
 
 qsortBy :: [a] -> (a -> a -> Bool) -> [a]
 qsortBy [] _ = []
 qsortBy (x : xs) lt =
-  let (smaller, greater) = List.partition (lt x) xs
+  let (smaller, greater) = partition (lt x) xs
   in qsortBy smaller lt ++ x : qsortBy greater lt
 
 qsort :: Ord a => [a] -> [a]
@@ -28,15 +28,15 @@ splitLines str =
 isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
 
-pow :: Integral b => Rational -> b -> Rational
-pow = powtailrec 1
-  where powtailrec p x n
-          | x == 1 = 1
-          | n < 0 = 1 / pow x (- n)
-          | n == 0 = p
-          | otherwise = powtailrec (p * x) x (n - 1)
+fullPermutation :: String -> [String]
+fullPermutation str @ [c] = [str]
+fullPermutation str = concat $
+                      map (\(c : r) ->
+                        map ((:) c) $ fullPermutation r) $
+                      headAll [] str
+  where headAll p [c] = [c : p]
+        headAll p (c : r) =
+          (c : (p ++ r)) : headAll (p ++ [c]) r
 
-primes :: [Integer]
-primes = filterPrimes [2..]
-  where filterPrimes (x : xs) = x : filterPrimes
-          (filter ((/= 0) . (`rem` x)) xs)
+unicode :: [Char]
+unicode = ['\x0000'..'\xffff']

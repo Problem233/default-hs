@@ -66,10 +66,12 @@ answer2_2 =
 
 -- answer3_1: O(n)
 -- BUG 算法有问题，但结果正确
+--     正确算法速度超慢，所以这里将就着用吧
 answer3_1 :: Integer
-answer3_1 = find 600851475143 2 2
-  where find num f r
+answer3_1 = find num 2 2
+  where num = 600851475143
+        index = floor $ sqrt $ fromInteger num
+        find x f r
           | f > index = r
-          | num `rem` f == 0 = find (num `quot` f) (f + 1) f
-          | otherwise = find num (f + 1) r
-        index = ceiling $ sqrt 600851475143
+          | x `rem` f == 0 = find (x `quot` f) (f + 1) f
+          | otherwise = find x (f + 1) r

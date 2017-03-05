@@ -7,6 +7,7 @@ module Math (
   searchPythagoreanTriple) where
 
 import Data.List
+import Lib
 
 pow :: Integral b => Rational -> b -> Rational
 pow = powtailrec 1
@@ -16,7 +17,7 @@ pow = powtailrec 1
           | n == 0 = p
           | otherwise = powtailrec (p * x) x (n - 1)
 
-primes :: [Integer]
+primes :: Integral a => [a]
 primes = filterPrimes [2..]
   where filterPrimes (x : xs) = x : filterPrimes
           (filter ((/= 0) . (`rem` x)) xs)

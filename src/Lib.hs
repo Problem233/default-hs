@@ -39,4 +39,4 @@ fullPermutation str = concat $
           (c : (p ++ r)) : headAll (p ++ [c]) r
 
 unicode :: [Char]
-unicode = ['\x0000'..'\x10ffff']
+unicode = ['\x0'..'\x10ffff']

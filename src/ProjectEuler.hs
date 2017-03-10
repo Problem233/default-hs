@@ -75,3 +75,20 @@ answer3_1 = find num 2 2
           | f > index = r
           | x `rem` f == 0 = find (x `quot` f) (f + 1) f
           | otherwise = find x (f + 1) r
+
+-- Problem 4: Largest palindrome product
+-- --
+-- A palindromic number reads the same both ways. The largest
+-- palindrome made from the product of two 2-digit numbers is
+-- 9009 = 91 × 99.
+-- Find the largest palindrome made from the product of two
+-- 3-digit numbers.
+-- --
+-- Answer: ???
+
+-- answer4_1: O(10^n)
+answer4_1 :: Integer
+answer4_1 = foldl max 0 $
+            filter (\xs -> reverse (show xs) == show xs)
+                   [x * y | x <- reverse [100..999],
+                            y <- reverse [100..x]]

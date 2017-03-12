@@ -1,4 +1,4 @@
-# DefaultHs
+# default-hs
 
 *代码的实验场*
 

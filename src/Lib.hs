@@ -2,7 +2,8 @@ module Lib (
   qsortBy, qsort,
   splitLines, isLineTerminator,
   fullPermutation,
-  unicode) where
+  unicode,
+  (.>)) where
 
 import System.IO
 import Data.List
@@ -40,3 +41,6 @@ fullPermutation str = concat $
 
 unicode :: [Char]
 unicode = ['\x0'..'\x10ffff']
+
+(.>) :: (a -> b) -> (b -> c) -> a -> c
+(.>) = flip (.)

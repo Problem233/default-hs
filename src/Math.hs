@@ -4,9 +4,11 @@ module Math (
   isCoprime,
   pythagoreanTriple,
   pythagoreanTriples,
-  searchPythagoreanTriple) where
+  searchPythagoreanTriple,
+  mean, varience) where
 
 import Data.List
+import Data.Complex.Cyclotomic
 import Lib
 
 pow :: Integral b => Rational -> b -> Rational
@@ -58,3 +60,11 @@ searchPythagoreanTriple x =
           map (\n -> let m = x `quot` n
                       in (a * m, b * m, c * m)) $
           filter ((== 0) . (x `rem`)) [a, b, c]
+
+mean :: Foldable t => t Cyclotomic -> Cyclotomic
+mean xs = foldl (+) 0 xs /
+          (fromInteger $ toInteger $ length xs)
+
+varience :: [Cyclotomic] -> Cyclotomic
+varience xs = mean $ map ((\x -> x - m) .> (^ 2)) xs
+  where m = mean xs

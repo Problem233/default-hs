@@ -1,19 +1,39 @@
 import System.Environment (getArgs)
-import System.IO (openFile, hGetContents, IOMode (ReadMode))
+import System.IO (openFile, hGetContents,
+                  IOMode (ReadMode), Handle)
 import Data.Char (ord, chr)
 
 main :: IO ()
 main = do
-  (file : _) <- getArgs
-  inh <- openFile file ReadMode
-  code <- hGetContents inh
-  eval 0 (parse code) $ return emptyMem
+  args <- getArgs
+  if length args /= 0 then do
+    file <- openFile (head args) ReadMode
+    interp file
+  else repl 0 emptyMem
+
+interp :: Handle -> IO ()
+interp file = do
+  code <- hGetContents file
+  case parse code of
+    Just ops -> eval 0 ops $ return emptyMem
+    Nothing -> undefined
   return ()
+
+repl :: Int -> Mem -> IO ()
+repl p m = do
+  code <- getLine
+  if code == ":q" then return ()
+  else case parse code of
+    Just ops -> do
+                (ptr, mem) <- eval p ops $ return m
+                repl ptr mem
+    Nothing  -> repl p m
 
 data Op = IncP | DecP| Inc | Dec
         | Put | Get| Loop [Op]
         deriving Show
 
+parse :: String -> Maybe [Op]
 parse str = let p = flip foldl [[]] $ \(lops : ops) c ->
                       case c of
                         '>' -> (IncP : lops) : ops
@@ -27,8 +47,9 @@ parse str = let p = flip foldl [[]] $ \(lops : ops) c ->
                                 in (Loop (reverse lops) :
                                     ops1) : ops2
                         _   -> lops : ops
-                [ops] = p str
-             in reverse ops
+                opss = p str
+             in if length opss == 1 then Just $ head opss
+                                    else Nothing
 
 eval :: Int -> [Op] -> IO Mem -> IO (Int, Mem)
 eval p (op : r) mem = mem >>= \m ->

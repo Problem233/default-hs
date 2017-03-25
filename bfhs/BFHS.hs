@@ -1,5 +1,6 @@
 import System.Environment (getArgs)
 import System.IO (openFile, hGetContents,
+                  hFlush, stdout,
                   IOMode (ReadMode), Handle)
 import Data.Char (ord, chr)
 
@@ -21,6 +22,8 @@ interp file = do
 
 repl :: Int -> Mem -> IO ()
 repl p m = do
+  putStr $ "bf@" ++ show p ++ "> "
+  hFlush stdout
   code <- getLine
   if code == ":q" then return ()
   else case parse code of
@@ -48,8 +51,9 @@ parse str = let p = flip foldl [[]] $ \(lops : ops) c ->
                                     ops1) : ops2
                         _   -> lops : ops
                 opss = p str
-             in if length opss == 1 then Just $ head opss
-                                    else Nothing
+             in if length opss == 1
+                then Just $ reverse $ head opss
+                else Nothing
 
 eval :: Int -> [Op] -> IO Mem -> IO (Int, Mem)
 eval p (op : r) mem = mem >>= \m ->
@@ -77,7 +81,7 @@ dec :: Int -> Mem -> Mem
 dec p m = apply p (chr $ (ord $ m !! p) - 1) m
 
 put :: Int -> Mem -> IO ()
-put p m = putChar $ m !! p
+put p m = (putChar $ m !! p) >> hFlush stdout
 
 get :: Int -> Mem -> IO Mem
 get p m = do

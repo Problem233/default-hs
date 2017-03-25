@@ -53,7 +53,7 @@ answer2_1 = loop 0 1 2
 -- answer2_2: O(n)
 answer2_2 :: Integer
 answer2_2 =
-  sum $ filter even (takeWhile (<= 4000000) $ fib 1 2)
+  sum $ filter even $ takeWhile (<= 4000000) $ fib 1 2
   where fib a b = a : fib b (a + b)
 
 -- Problem 3: Largest prime factor

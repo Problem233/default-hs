@@ -67,7 +67,9 @@ functions =
   [
     Func {
       name = "?",
-      helpText = ":? get help",
+      helpText =
+        ":? get help\n" ++
+        ":? <command> get helo for given command",
       func = \args p m -> case args of
         [] -> do
           forM functions (putStrLn . helpText)
@@ -93,6 +95,7 @@ functions =
         ":m <start> <end> show the memory value from given" ++
         " start address to end address",
       func = \args p m -> case args of
+        [] -> putStrLn "illegal argument" >> return (p, m)
         [idx] -> do
           let c = m !! read idx
            in putStrLn $ idx ++ ": " ++
@@ -143,8 +146,8 @@ parse str =
 eval :: Int -> [Op] -> Mem -> IO (Int, Mem)
 eval p (op : r) mem =
   case op of
-    IncP -> eval (p + 1) r mem
-    DecP -> eval (p - 1) r mem
+    IncP -> eval (incP p) r mem
+    DecP -> decP p >>= \ptr -> eval ptr r mem
     Inc -> eval p r $ inc p mem
     Dec -> eval p r $ dec p mem
     Put -> put p mem >> eval p r mem
@@ -157,8 +160,9 @@ eval p [] mem = return (p, mem)
 incP :: Int -> Int
 incP = (+ 1)
 
-decP :: Int -> Int
-decP x = x - 1
+decP :: Int -> IO Int
+decP 0 = putStrLn "out of memory!" >> return 0
+decP x = return $ x - 1
 
 inc :: Int -> Mem -> Mem
 inc p m = apply p (chr $ (ord $ m !! p) + 1) m

@@ -170,7 +170,10 @@ inc :: Int -> Mem -> Mem
 inc p m = apply p (chr $ (ord $ m !! p) + 1) m
 
 dec :: Int -> Mem -> Mem
-dec p m = apply p (chr $ (ord $ m !! p) - 1) m
+dec p m = let v = ord $ m !! p
+              nv = if v == 0 then maxBound
+                   else chr $ v - 1
+           in apply p nv m
 
 put :: Int -> Mem -> IO ()
 put p m = (putChar $ m !! p) >> hFlush stdout

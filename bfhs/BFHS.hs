@@ -124,24 +124,26 @@ data Op = IncP | DecP| Inc | Dec
         deriving Show
 
 parse :: String -> Maybe [Op]
-parse str =
-  let p = flip foldl [[]] $ \(lops : ops) c ->
-            case c of
-              '>' -> (IncP : lops) : ops
-              '<' -> (DecP : lops) : ops
-              '+' -> (Inc : lops) : ops
-              '-' -> (Dec : lops) : ops
-              '.' -> (Put : lops) : ops
-              ',' -> (Get : lops) : ops
-              '[' -> [] : lops : ops
-              ']' -> let (ops1 : ops2) = ops
-                      in (Loop (reverse lops) :
-                          ops1) : ops2
-              _   -> lops : ops
-      opss = p str
-    in if length opss == 1
-      then Just $ reverse $ head opss
-      else Nothing
+parse str
+  | wclosed =
+      let p = flip foldl [[]] $ \(lops : ops) c ->
+                case c of
+                  '>' -> (IncP : lops) : ops
+                  '<' -> (DecP : lops) : ops
+                  '+' -> (Inc : lops) : ops
+                  '-' -> (Dec : lops) : ops
+                  '.' -> (Put : lops) : ops
+                  ',' -> (Get : lops) : ops
+                  '[' -> [] : lops : ops
+                  ']' -> let (ops1 : ops2) = ops
+                          in (Loop (reverse lops) :
+                              ops1) : ops2
+                  _   -> lops : ops
+        in Just $ reverse $ head $ p str
+  | otherwise = Nothing
+  where wclosed =
+          (length $ filter (== ']') str) -
+          (length $ filter (== '[') str) == 0
 
 eval :: Int -> [Op] -> Mem -> IO (Int, Mem)
 eval p (op : r) mem =

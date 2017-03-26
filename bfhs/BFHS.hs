@@ -21,10 +21,10 @@ interp :: Handle -> IO ()
 interp file = do
   code <- hGetContents file
   case parse code of
-    Just ops -> eval 0 ops $ return emptyMem
-    Nothing -> do
-      putStrLn "Parse error!"
-      exitFailure
+    Just ops -> do
+      let _ = eval 0 ops emptyMem
+      return ()
+    Nothing -> putStrLn "Parse error!" >> exitFailure
   return ()
 
 repl :: Int -> Mem -> IO ()
@@ -33,11 +33,11 @@ repl p m = do
   hFlush stdout
   code <- getLine
   if head code == ':' then do
-    function (tail code) p m
-    repl p m
+    (ptr, mem) <- function (tail code) p m
+    repl ptr mem
   else case parse code of
     Just ops -> do
-                (ptr, mem) <- eval p ops $ return m
+                (ptr, mem) <- eval p ops m
                 repl ptr mem
     Nothing  -> do
                 putStrLn "Parse error!"
@@ -46,13 +46,13 @@ repl p m = do
 data Func = Func {
               name :: String,
               helpText :: String,
-              func :: [String] -> Int -> Mem -> IO ()
+              func :: [String] -> Int -> Mem -> IO (Int, Mem)
             }
 
 findFunc :: String -> Maybe Func
 findFunc n = find ((== n) . name) functions
 
-function :: String -> Int -> Mem -> IO ()
+function :: String -> Int -> Mem -> IO (Int, Mem)
 function str p m =
   let (n : args) = words str
    in case findFunc n of
@@ -60,6 +60,7 @@ function str p m =
         Nothing -> do
           putStrLn $ "unknown function ':" ++ n ++ "'"
           putStrLn "use :? for help."
+          return (p, m)
 
 functions :: [Func]
 functions =
@@ -67,21 +68,23 @@ functions =
     Func {
       name = "?",
       helpText = ":? get help",
-      func = \args _ _ -> case args of
+      func = \args p m -> case args of
         [] -> do
           forM functions (putStrLn . helpText)
-          return ()
+          return (p, m)
         (n : _) -> case findFunc n of
-          Just (Func _ h _) -> putStrLn h
-          Nothing -> putStrLn $
-            "unknown function ':" ++ n ++ "'"
+          Just (Func _ h _) -> putStrLn h >> return (p, m)
+          Nothing -> do
+            putStrLn $ "unknown function ':" ++ n ++ "'"
+            return (p, m)
     },
     Func {
       name = "q",
       helpText = ":q exit repl",
-      func = \_ _ _ -> do
+      func = \_ p m -> do
         putStrLn "bye."
         exitSuccess
+        return (p, m)
     },
     Func {
       name = "m",
@@ -89,11 +92,12 @@ functions =
         ":m <index> show the memory value at given address\n" ++
         ":m <start> <end> show the memory value from given" ++
         " start address to end address",
-      func = \args _ m -> case args of
-        [idx] ->
+      func = \args p m -> case args of
+        [idx] -> do
           let c = m !! read idx
            in putStrLn $ idx ++ ": " ++
                 show (ord c) ++ " " ++ show c
+          return (p, m)
         (s : e : _) ->
           let start = read s
               end = read e
@@ -103,7 +107,12 @@ functions =
               forM sliceWithIdx $ \(idx, c) ->
                 putStrLn $ show idx ++ ": " ++
                   show (ord c) ++ " " ++ show c
-              return ()
+              return (p, m)
+    },
+    Func {
+      name = "r",
+      helpText = ":r reset the memory and the pointer",
+      func = \_ _ _ -> return (0, emptyMem)
     }
   ]
 
@@ -131,18 +140,19 @@ parse str =
       then Just $ reverse $ head opss
       else Nothing
 
-eval :: Int -> [Op] -> IO Mem -> IO (Int, Mem)
-eval p (op : r) mem = mem >>= \m ->
+eval :: Int -> [Op] -> Mem -> IO (Int, Mem)
+eval p (op : r) mem =
   case op of
     IncP -> eval (p + 1) r mem
     DecP -> eval (p - 1) r mem
-    Inc -> eval p r $ return $ inc p m
-    Dec -> eval p r $ return $ dec p m
-    Put -> put p m >> eval p r mem
-    Get -> eval p r $ get p m
-    Loop ops -> loop p ops m >>=
-      \(ptr, mem) -> eval ptr r $ return mem
-eval p [] mem = mem >>= \m -> return (p, m)
+    Inc -> eval p r $ inc p mem
+    Dec -> eval p r $ dec p mem
+    Put -> put p mem >> eval p r mem
+    Get -> get p mem >>= eval p r
+    Loop ops -> do
+      (ptr, m) <- loop p ops mem
+      eval ptr r m
+eval p [] mem = return (p, mem)
 
 incP :: Int -> Int
 incP = (+ 1)
@@ -167,9 +177,9 @@ get p m = do
 loop :: Int -> [Op] -> Mem -> IO (Int, Mem)
 loop p ops m
   | ord (m !! p) == 0 = return (p, m)
-  | otherwise =
-      (eval p ops $ return m) >>=
-        \(ptr, mem) -> loop ptr ops mem
+  | otherwise = do
+      (ptr, mem) <- eval p ops m
+      loop ptr ops mem
 
 type Mem = [Char]
 

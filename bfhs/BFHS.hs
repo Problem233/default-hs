@@ -30,7 +30,7 @@ repl p m = do
   putStr $ "bf@" ++ show p ++ "> "
   hFlush stdout
   code <- getLine
-  if head code == ':' then do
+  if (not $ null code) && head code == ':' then do
     (ptr, mem) <- function (tail code) p m
     repl ptr mem
   else case parse code of
@@ -123,6 +123,7 @@ data Op = IncP | DecP| Inc | Dec
 
 parse :: String -> Maybe [Op]
 parse str
+  | str == [] = Just []
   | wclosed =
       let p = flip foldl [[]] $ \(lops : ops) c ->
                 case c of

@@ -24,7 +24,7 @@ interp file = do
     Just ops -> do
       let _ = eval 0 ops emptyMem
       return ()
-    Nothing -> putStrLn "Parse error!" >> exitFailure
+    Nothing -> putStrLn "parse error!" >> exitFailure
   return ()
 
 repl :: Int -> Mem -> IO ()
@@ -40,7 +40,7 @@ repl p m = do
                 (ptr, mem) <- eval p ops m
                 repl ptr mem
     Nothing  -> do
-                putStrLn "Parse error!"
+                putStrLn "parse error!"
                 repl p m
 
 data Func = Func {
@@ -58,7 +58,7 @@ function str p m =
    in case findFunc n of
         Just (Func _ _ f) -> f args p m
         Nothing -> do
-          putStrLn $ "unknown function ':" ++ n ++ "'"
+          putStrLn $ "unknown function ':" ++ n ++ "'."
           putStrLn "use :? for help."
           return (p, m)
 
@@ -69,20 +69,20 @@ functions =
       name = "?",
       helpText =
         ":? get help\n" ++
-        ":? <command> get helo for given command",
+        ":? <command> get helo for given command.",
       func = \args p m -> case args of
         [] -> do
           forM functions (putStrLn . helpText)
           return (p, m)
-        (n : _) -> case findFunc n of
+        (n : _) -> case findFunc $ tail n of
           Just (Func _ h _) -> putStrLn h >> return (p, m)
           Nothing -> do
-            putStrLn $ "unknown function ':" ++ n ++ "'"
+            putStrLn $ "unknown function ':" ++ n ++ "'."
             return (p, m)
     },
     Func {
       name = "q",
-      helpText = ":q exit repl",
+      helpText = ":q exit repl.",
       func = \_ p m -> do
         putStrLn "bye."
         exitSuccess
@@ -91,11 +91,11 @@ functions =
     Func {
       name = "m",
       helpText =
-        ":m <index> show the memory value at given address\n" ++
+        ":m <index> show the memory value at given address.\n" ++
         ":m <start> <end> show the memory value from given" ++
-        " start address to end address",
+        " start address to end address.",
       func = \args p m -> case args of
-        [] -> putStrLn "illegal argument" >> return (p, m)
+        [] -> putStrLn "illegal arguments!" >> return (p, m)
         [idx] -> do
           let c = m !! read idx
            in putStrLn $ idx ++ ": " ++
@@ -114,7 +114,7 @@ functions =
     },
     Func {
       name = "r",
-      helpText = ":r reset the memory and the pointer",
+      helpText = ":r reset the memory and the pointer.",
       func = \_ _ _ -> return (0, emptyMem)
     }
   ]

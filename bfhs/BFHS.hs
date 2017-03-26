@@ -21,9 +21,7 @@ interp :: Handle -> IO ()
 interp file = do
   code <- hGetContents file
   case parse code of
-    Just ops -> do
-      let _ = eval 0 ops emptyMem
-      return ()
+    Just ops -> eval 0 ops emptyMem
     Nothing -> putStrLn "parse error!" >> exitFailure
   return ()
 

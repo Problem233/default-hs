@@ -5,8 +5,7 @@ module Lib (
   unicode,
   (.>)) where
 
-import System.IO
-import Data.List
+import Data.List (partition)
 
 qsortBy :: [a] -> (a -> a -> Bool) -> [a]
 qsortBy [] _ = []

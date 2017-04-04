@@ -3,7 +3,9 @@ module Lib (
   splitLines, isLineTerminator,
   fullPermutation,
   unicode,
-  (.>)) where
+  (.>),
+  RecFunc (..),
+  normalizeRF) where
 
 import Data.List (partition)
 
@@ -43,3 +45,8 @@ unicode = ['\x0'..'\x10ffff']
 
 (.>) :: (a -> b) -> (b -> c) -> a -> c
 (.>) = flip (.)
+
+data RecFunc a b = RF (RecFunc a b -> a -> b)
+
+normalizeRF :: RecFunc a b -> a -> b
+normalizeRF rf @ (RF f) = f rf

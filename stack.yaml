@@ -63,6 +63,3 @@ arch: i386, x86_64
 #
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
-
-build:
-  split-objs: true

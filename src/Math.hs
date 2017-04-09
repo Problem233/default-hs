@@ -7,7 +7,6 @@ module Math (
   searchPythagoreanTriple) where
 
 import Data.List
-import Lib
 
 pow :: Integral b => Rational -> b -> Rational
 pow = powtailrec 1
@@ -48,12 +47,12 @@ pythagoreanTriples = pythagoreanTriples2D 1
 
 searchPythagoreanTriple :: Integral a => a -> [(a, a, a)]
 searchPythagoreanTriple x =
-  concat $
-  map ( concat . map (ti x) .
-        filter (\(a, b, c) ->
-          x `rem` a == 0 || x `rem` b == 0 || x `rem` c == 0) .
-        takeWhile (\(n, _, _) -> n <= x)) $
-      takeWhile (\((n, _, _) : _) -> n <= x) pythagoreanTriples
+  concatMap (
+    concatMap (ti x) .
+    filter (\(a, b, c) ->
+      x `rem` a == 0 || x `rem` b == 0 || x `rem` c == 0) .
+    takeWhile (\(n, _, _) -> n <= x)) $
+  takeWhile (\((n, _, _) : _) -> n <= x) pythagoreanTriples
   where ti x (a, b, c) =
           map (\n -> let m = x `quot` n
                       in (a * m, b * m, c * m)) $

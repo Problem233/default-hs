@@ -1,7 +1,6 @@
-import System.Environment
-import System.IO
-import Control.Monad
-import Math
+import System.Environment (getArgs)
+import Control.Monad (forM_)
+import Math (searchPythagoreanTriple)
 
 main :: IO ()
 main = do

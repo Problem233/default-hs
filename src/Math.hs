@@ -6,7 +6,7 @@ module Math (
   pythagoreanTriples,
   searchPythagoreanTriple) where
 
-import Data.List
+import Data.List (sort)
 
 pow :: Integral b => Rational -> b -> Rational
 pow = powtailrec 1

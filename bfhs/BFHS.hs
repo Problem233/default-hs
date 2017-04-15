@@ -3,14 +3,14 @@ import System.Exit (exitSuccess)
 import System.IO (openFile, hGetContents,
                   hFlush, stdout,
                   IOMode (ReadMode), Handle)
-import Control.Monad (forM)
+import Control.Monad (forM_)
 import Data.List (find)
 import Data.Char (ord, chr)
 
 main :: IO ()
 main = do
   args <- getArgs
-  if length args /= 0
+  if not $ null args
   then openFile (head args) ReadMode >>= interp
   else repl
 
@@ -64,7 +64,7 @@ functions =
         ":? get help.\n" ++
         ":? <command> get helo for given command.",
       exec = \args m -> case args of
-        []      -> forM functions (putStrLn . helpText) >>
+        []      -> forM_ functions (putStrLn . helpText) >>
                    return m
         (n : _) -> case func $ tail n of
           Just (Func _ h _) -> putStrLn h >> return m
@@ -107,9 +107,9 @@ eval ((c : r) : rl) m = case c of
   ',' -> get m >>= next
   '[' -> if test $ c : r
          then if finishLoop m
-              then eval ((dropLoop $ c : r) : rl) m
+              then eval (dropLoop (c : r) : rl) m
               else eval (r : (c : r) : rl) m
-         else return (((c : r) : rl), m)
+         else return ((c : r) : rl, m)
   ']' -> if finishLoop m
          then let (s : rl1) = rl
                in eval (dropLoop s : rl1) m

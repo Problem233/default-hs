@@ -31,22 +31,21 @@ isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
 
 fullPermutation :: String -> [String]
-fullPermutation str @ [c] = [str]
-fullPermutation str = concat $
-                      map (\(c : r) ->
+fullPermutation str @ [_] = [str]
+fullPermutation str = concatMap (\(c : r) ->
                         map ((:) c) $ fullPermutation r) $
                       headAll [] str
   where headAll p [c] = [c : p]
         headAll p (c : r) =
           (c : (p ++ r)) : headAll (p ++ [c]) r
 
-unicode :: [Char]
+unicode :: [Char] -- 无视这个 hlint 警告
 unicode = ['\x0'..'\x10ffff']
 
 (.>) :: (a -> b) -> (b -> c) -> a -> c
 (.>) = flip (.)
 
-data RecFunc a b = RF (RecFunc a b -> a -> b)
+newtype RecFunc a b = RF (RecFunc a b -> a -> b)
 
 normalizeRF :: RecFunc a b -> a -> b
 normalizeRF rf @ (RF f) = f rf

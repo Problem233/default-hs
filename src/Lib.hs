@@ -5,7 +5,8 @@ module Lib (
   unicode,
   (.>),
   RecFunc (..),
-  normalizeRF) where
+  normalizeRF,
+  rotate) where
 
 import Data.List (partition)
 
@@ -49,3 +50,12 @@ newtype RecFunc a b = RF (RecFunc a b -> a -> b)
 
 normalizeRF :: RecFunc a b -> a -> b
 normalizeRF rf @ (RF f) = f rf
+
+rotate :: [[a]] -> [[a]]
+rotate (fl : rl) = rotateRec rl [fl]
+  where rotateRec _ [] = []
+        rotateRec l r =
+          map head (removeNull r) :
+            if null l then rotateRec [] (map tail (removeNull r))
+            else rotateRec (tail l) (map tail (removeNull r) ++ [head l])
+          where removeNull = filter (not . null)

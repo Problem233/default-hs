@@ -1,7 +1,8 @@
 module ProjectEuler where
 
--- Used by answer2_2, answer11_1
-import Data.List
+-- Used by answer11_1
+import Data.List (transpose, tails)
+import Lib (rotate)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -132,17 +133,9 @@ answer11_1 = maximum [vmax, hmax, lsmax, rsmax]
         lsmax = rowsMaxProduct $ rotate grid
         rsmax = rowsMaxProduct $ rotate $ reverse grid
         rowsMaxProduct = maximum .
-                        concatMap (
-                          map (product . take 4) .
-                          filter ((>= 4) . length) . tails)
-        -- the rotate looks like a sh*t
-        rotate (fl : rl) = rotateRec rl [fl]
-          where rotateRec _ [] = []
-                rotateRec l r =
-                  map head (removeNull r) :
-                    if null l then rotateRec [] (map tail (removeNull r))
-                    else rotateRec (tail l) (map tail (removeNull r) ++ [head l])
-                  where removeNull = filter (not . null)
+                         concatMap (
+                           map (product . take 4) .
+                           filter ((>= 4) . length) . tails)
         grid =
           [
             [8, 2, 22,97,38,15, 0,40, 0,75, 4, 5, 7,78,52,12,50,77,91, 8],

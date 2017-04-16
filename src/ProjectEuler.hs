@@ -3,6 +3,8 @@ module ProjectEuler where
 -- Used by answer11_1
 import Data.List (transpose, tails)
 import Lib (rotate)
+-- Used by answer5_1
+import Math (primes)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -93,6 +95,22 @@ answer4_1 = foldl max 0 $
             filter (\xs -> reverse (show xs) == show xs)
                    [x * y | x <- reverse [100..999],
                             y <- reverse [100..x]]
+
+-- Problem 5: Smallest multiple
+-- --
+-- 2520 is the smallest number that can be divided by each of
+-- the numbers from 1 to 10 without any remainder.
+-- What is the smallest positive number that is evenly
+-- divisible by all of the numbers from 1 to 20?
+-- --
+-- Answer: 232792560
+
+-- answer5_1: O(?)
+answer5_1 :: Integer
+answer5_1 = product $
+            map (\x ->
+              last $ takeWhile (<= 20) $ map (x ^) [1..]) $
+            takeWhile (<= 20) primes
 
 -- Problem 11: Largest product in a grid
 -- --

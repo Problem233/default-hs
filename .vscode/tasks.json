@@ -19,7 +19,7 @@
        "command": "echo START_STACK_TEST && cd ${workspaceRoot} && stack test && echo END_STACK_TEST "
     },
     {
-       "isWatching": true,
+      "isBackground": true,
        "taskName": "stack watch",
        "command": "echo START_STACK_WATCH && cd ${workspaceRoot} && stack build --test --no-run-tests --file-watch && echo END_STACK_WATCH "
     }

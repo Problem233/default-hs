@@ -1,27 +1,28 @@
 {
   "version": "0.1.0",
+  "command": "zsh",
   "isShellCommand": true,
   "showOutput": "always",
   "suppressTaskName": true,
   "tasks": [
     {
-       "taskName": "stack build",
-       "command": "echo START_STACK_BUILD && cd ${workspaceRoot} && stack build && echo END_STACK_BUILD"
+      "taskName": "stack build",
+      "args": ["-c", "echo start stack build... && cd ${workspaceRoot} && stack build && echo finish stack build."]
     },
     {
-       "isBuildCommand": true,
-       "taskName": "stack clean & build",
-       "command": "echo START_STACK_CLEAN_AND_BUILD && cd ${workspaceRoot} && stack clean && stack build && echo END_STACK_CLEAN_AND_BUILD "
+      "isBuildCommand": true,
+      "taskName": "stack clean & build",
+      "args": ["-c", "echo start stack clean and build... && cd ${workspaceRoot} && stack clean && stack build && echo finish stack clean and build."]
     },
     {
-       "isTestCommand": true,
-       "taskName": "stack test",
-       "command": "echo START_STACK_TEST && cd ${workspaceRoot} && stack test && echo END_STACK_TEST "
+      "isTestCommand": true,
+      "taskName": "stack test",
+      "args": ["-c", "echo start stack test... && cd ${workspaceRoot} && stack test && echo finish stack test."]
     },
     {
       "isBackground": true,
-       "taskName": "stack watch",
-       "command": "echo START_STACK_WATCH && cd ${workspaceRoot} && stack build --test --no-run-tests --file-watch && echo END_STACK_WATCH "
+      "taskName": "stack watch",
+      "args": ["-c", "echo start stack watch... && cd ${workspaceRoot} && stack build --test --no-run-tests --file-watch && echo finish stack watch."]
     }
   ]
 }

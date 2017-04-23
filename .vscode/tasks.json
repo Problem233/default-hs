@@ -1,28 +1,19 @@
 {
   "version": "0.1.0",
   "command": "zsh",
+  "args": ["-c"],
   "isShellCommand": true,
   "showOutput": "always",
   "suppressTaskName": true,
   "tasks": [
     {
       "taskName": "stack build",
-      "args": ["-c", "echo start stack build... && cd ${workspaceRoot} && stack build && echo finish stack build."]
+      "args": ["stack build"]
     },
     {
       "isBuildCommand": true,
       "taskName": "stack clean & build",
-      "args": ["-c", "echo start stack clean and build... && cd ${workspaceRoot} && stack clean && stack build && echo finish stack clean and build."]
-    },
-    {
-      "isTestCommand": true,
-      "taskName": "stack test",
-      "args": ["-c", "echo start stack test... && cd ${workspaceRoot} && stack test && echo finish stack test."]
-    },
-    {
-      "isBackground": true,
-      "taskName": "stack watch",
-      "args": ["-c", "echo start stack watch... && cd ${workspaceRoot} && stack build --test --no-run-tests --file-watch && echo finish stack watch."]
+      "args": ["stack clean && stack build"]
     }
   ]
 }

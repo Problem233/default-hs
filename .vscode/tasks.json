@@ -8,12 +8,12 @@
   "tasks": [
     {
       "isBuildCommand": true,
-      "taskName": "compile with clang++ and run it",
-      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -o ./exe/$FILENAME ${file} && ./exe/$FILENAME"]
+      "taskName": "compile with clang++",
+      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -o ./exe/$FILENAME ${file}"]
     },
     {
-      "taskName": "compile with g++ and run it",
-      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && g++ -o ./exe/$FILENAME ${file} && ./exe/$FILENAME"]
+      "taskName": "compile with g++",
+      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && g++ -o ./exe/$FILENAME ${file}"]
     }
   ]
 }

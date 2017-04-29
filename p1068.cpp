@@ -8,7 +8,7 @@ struct Volunteer {
   int s; // 分数
 };
 
-int main(int argc, char** argv) {
+int main() {
   int m, n; // m 选手总数；n 录取人数
   cin >> m >> n;
   int intervs = n * 1.5; // 分数线选手排名 == 面试人数

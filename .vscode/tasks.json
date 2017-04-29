@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "isShellCommand": true,
+  "command": "zsh",
+  "args": ["-c"],
+  "showOutput": "always",
+  "suppressTaskName": true,
+  "tasks": [
+    {
+      "isBuildCommand": true,
+      "taskName": "compile with clang++ and run it",
+      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -o $FILENAME ${file} && ./$FILENAME"]
+    },
+    {
+      "taskName": "compile with g++ and run it",
+      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && g++ -o $FILENAME ${file} && ./$FILENAME"]
+    }
+  ]
+}

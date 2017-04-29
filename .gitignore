@@ -3,6 +3,9 @@
 # My executable directory
 exe/
 
+### Dolphin ###
+.directory
+
 ### CPP ###
 
 # Prerequisites

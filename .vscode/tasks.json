@@ -9,7 +9,7 @@
     {
       "isBuildCommand": true,
       "taskName": "compile with clang++",
-      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -o ./exe/$FILENAME ${file}"]
+      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -std=c++11 -o ./exe/$FILENAME ${file}"]
     },
     {
       "taskName": "compile with g++",

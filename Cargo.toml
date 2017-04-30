@@ -1,6 +1,7 @@
 [package]
-name = "sandbox-rust"
+name = "sandbox"
 version = "0.1.0"
 authors = ["problem233 <problem233@outlook.com>"]
 
 [dependencies]
+rand = "0.3.15"

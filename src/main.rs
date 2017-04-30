@@ -1,3 +1,9 @@
+extern crate rand;
+
+mod lib;
+
+use lib::guessing_number;
+
 fn main() {
-    println!("Hello, world!");
+    guessing_number::play();
 }

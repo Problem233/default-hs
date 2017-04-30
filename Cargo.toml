@@ -1,0 +1,6 @@
+[package]
+name = "sandbox-rust"
+version = "0.1.0"
+authors = ["problem233 <problem233@outlook.com>"]
+
+[dependencies]

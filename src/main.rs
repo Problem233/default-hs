@@ -2,8 +2,12 @@ extern crate rand;
 
 pub mod lib;
 
-use lib::trpl::geometry::*;
+use lib::trpl::fib::*;
 
 fn main() {
-  println!("{}", Rectangle::new(&1600, &900).area());
+  let fib_vec = fib2(&1, &1, &70);
+  for x in fib_vec {
+    print!("{} ", x);
+  }
+  println!();
 }

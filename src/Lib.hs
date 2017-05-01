@@ -4,6 +4,7 @@ module Lib (
   fullPermutation,
   unicode,
   (.>),
+  while,
   RecFunc (..),
   applyRF,
   rotate) where
@@ -42,6 +43,11 @@ fullPermutation str = concatMap (\(c : r) ->
 
 unicode :: [Char] -- 无视这个 hlint 警告
 unicode = ['\x0'..'\x10ffff']
+
+while :: a -> (a -> Bool) -> (a -> a) -> a
+while env p f
+  | p env = while (f env) p f
+  | otherwise = env
 
 (.>) :: (a -> b) -> (b -> c) -> a -> c
 (.>) = flip (.)

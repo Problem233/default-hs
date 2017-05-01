@@ -1,1 +1,1 @@
-pub mod guessing_number;
+pub mod trpl;

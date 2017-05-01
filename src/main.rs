@@ -1,9 +1,9 @@
 extern crate rand;
 
-mod lib;
+pub mod lib;
 
-use lib::guessing_number;
+use lib::trpl::geometry::*;
 
 fn main() {
-    guessing_number::play();
+  println!("{}", Rectangle::new(&1600, &900).area());
 }

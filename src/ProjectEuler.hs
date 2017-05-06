@@ -5,6 +5,8 @@ import Data.List (transpose, tails)
 import Lib (rotate)
 -- Used by answer5_1
 import Math (primes)
+-- Used by answer15_1
+import Math (fact)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -186,3 +188,29 @@ answer11_1 = maximum [vmax, hmax, lsmax, rsmax]
             [20,73,35,29,78,31,90, 1,74,31,49,71,48,86,81,16,23,57, 5,54],
             [1, 70,54,71,83,51,54,69,16,92,33,48,61,43,52, 1,89,19,67,48]
           ]
+
+-- Problem 15: Lattice paths
+-- --
+-- Starting in the top left corner of a 2×2 grid, and only being able to move
+-- to the right and down, there are exactly 6 routes to the bottom right
+-- corner.
+-- [https://projecteuler.net/project/images/p015.gif]
+-- How many such routes are there through a 20×20 grid?
+-- --
+-- Answer: ???
+
+-- answer15_1: O(n)
+answer15_1 :: Integer
+answer15_1 = fact (20 * 2) `div` (fact 20 ^ 2)
+
+-- answer15_2: O(?)
+answer15_2 :: Integer
+answer15_2 = cal 20 20
+  where cal x y
+          | x == 1 || y == 1 = toInteger $ x + y
+          | x == y = 2 * mcal (x - 1) y
+          | otherwise = mcal (x - 1) y + mcal x (y - 1)
+        mcal x y
+          | x < y = mcal y x
+          | otherwise = mcall !! (x - 1) !! (y - 1)
+        mcall = [[cal x y | y <- [1..x]] | x <- [1..20]]

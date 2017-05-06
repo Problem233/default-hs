@@ -1,5 +1,6 @@
 module Math (
   pow,
+  fact,
   primes,
   isCoprime,
   pythagoreanTriple,
@@ -8,13 +9,17 @@ module Math (
 
 import Data.List (sort)
 
-pow :: Integral b => Rational -> b -> Rational
+pow :: Integral a => Rational -> a -> Rational
 pow = powtailrec 1
   where powtailrec p x n
           | x == 1 = 1
           | n < 0 = 1 / pow x (- n)
           | n == 0 = p
           | otherwise = powtailrec (p * x) x (n - 1)
+
+fact :: Integral a => a -> a
+fact 2 = 2
+fact n = n * fact (n - 1)
 
 primes :: Integral a => [a]
 primes = filterPrimes [2..]

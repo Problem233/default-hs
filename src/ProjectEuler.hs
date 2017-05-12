@@ -7,6 +7,8 @@ import Lib (rotate)
 import Math (primes)
 -- Used by answer15_1
 import Math (fact)
+-- Used by answer15_3
+import Math (pascalsTrangle)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -214,3 +216,7 @@ answer15_2 = cal 20 20
           | x < y = mcal y x
           | otherwise = mcall !! (x - 1) !! (y - 1)
         mcall = [[cal x y | y <- [1..x]] | x <- [1..20]]
+
+-- answer15_3: O(?)
+answer15_3 :: Integer
+answer15_3 = pascalsTrangle !! (20 - 1) !! (20 - 1)

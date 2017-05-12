@@ -32,9 +32,9 @@ isCoprime a b = gcd a b == 1
 
 pascalsTrangle :: Integral a => [[a]]
 pascalsTrangle = generate $ repeat 1
-  where generate xs = xs : generate (generateLine 1 $ tail xs)
-        generateLine l (u : r) = let n = l + u
-                                  in l : generateLine n r
+  where generate xs = xs : generate (generateRaw 1 $ tail xs)
+        generateRaw l (u : r) = let n = l + u
+                                  in l : generateRaw n r
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n

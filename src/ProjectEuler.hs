@@ -8,7 +8,7 @@ import Math (primes)
 -- Used by answer15_1
 import Math (fact)
 -- Used by answer15_3
-import Math (pascalsTrangle)
+import Math (pascalsTriangle)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -219,4 +219,4 @@ answer15_2 = cal 20 20
 
 -- answer15_3: O(?)
 answer15_3 :: Integer
-answer15_3 = pascalsTrangle !! (20 - 1) !! (20 - 1)
+answer15_3 = pascalsTriangle !! (20 - 1) !! (20 - 1)

@@ -3,7 +3,7 @@ module Math (
   fact,
   primes,
   isCoprime,
-  pascalsTrangle,
+  pascalsTriangle,
   pythagoreanTriple,
   pythagoreanTriples,
   searchPythagoreanTriple) where
@@ -30,8 +30,8 @@ primes = filterPrimes [2..]
 isCoprime :: Integral a => a -> a -> Bool
 isCoprime a b = gcd a b == 1
 
-pascalsTrangle :: Integral a => [[a]]
-pascalsTrangle = generate $ repeat 1
+pascalsTriangle :: Integral a => [[a]]
+pascalsTriangle = generate $ repeat 1
   where generate xs = xs : generate (generateRaw 1 $ tail xs)
         generateRaw l (u : r) = let n = l + u
                                   in l : generateRaw n r

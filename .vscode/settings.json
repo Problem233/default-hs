@@ -30,6 +30,7 @@
     "typeinfo": "cpp",
     "utility": "cpp",
     "fstream": "cpp",
-    "functional": "cpp"
+    "functional": "cpp",
+    "algorithm": "cpp"
   }
 }

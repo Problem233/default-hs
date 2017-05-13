@@ -10,7 +10,7 @@ import Math (fact)
 -- Used by answer15_3
 import Math (pascalsTriangle)
 -- Used by answer68_1
-import Lib (permutate)
+import Data.List (permutations)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -259,8 +259,8 @@ answer68_1 = concatMap (concatMap show . (\([o1, o2, o3, o4], [i1, i2, i3]) ->
              filter (\([o1, o2, o3, o4], [i1, i2, i3]) ->
                       o1 + 3 + i1 == 14 && o2 + i1 + i2 == 14 &&
                       o3 + i2 + i3 == 14 && o4 + i3 + 5 == 14)
-                    [(o, i) | o <- permutate [7, 8, 9, 10],
-                              i <- permutate [1, 2, 4]]
+                    [(o, i) | o <- permutations [7, 8, 9, 10],
+                              i <- permutations [1, 2, 4]]
 
 -- Problem 97: Large non-Mersenne prime
 -- --

@@ -1,7 +1,6 @@
 module Lib (
   qsortBy, qsort,
   splitLines, isLineTerminator,
-  fullPermutation,
   unicode,
   (.>),
   while,
@@ -31,12 +30,6 @@ splitLines str =
 
 isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
-
-permutate :: [t] -> [[t]]
-permutate l @ [_] = [l]
-permutate l = concatMap (\(c : r) -> map ((:) c) $ permutate r) $ headAll [] l
-  where headAll p [c] = [c : p]
-        headAll p (c : r) = (c : (p ++ r)) : headAll (p ++ [c]) r
 
 unicode :: [Char] -- 无视这个 hlint 警告
 unicode = ['\x0'..'\x10ffff']

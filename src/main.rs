@@ -1,9 +1,10 @@
 extern crate rand;
+extern crate permutohedron;
 
 pub mod lib;
 
 use lib::pe::*;
 
 fn main() {
-  println!("{}", answer15_1());
+  answer68_1();
 }

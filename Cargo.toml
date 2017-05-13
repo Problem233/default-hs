@@ -5,3 +5,4 @@ authors = ["problem233 <problem233@outlook.com>"]
 
 [dependencies]
 rand = "0.3.15"
+permutohedron = "0.2.2"

@@ -9,6 +9,8 @@ import Math (primes)
 import Math (fact)
 -- Used by answer15_3
 import Math (pascalsTriangle)
+-- Used by answer68_1
+import Lib (permutate)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -248,24 +250,30 @@ answer15_3 = pascalsTriangle !! 20 !! 20
 -- "magic" 5-gon ring?
 -- [https://projecteuler.net/project/images/p068_2.gif]
 -- --
--- Answer: ???
+-- Answer: 6531031914842725
 
 -- answer68_1: O(?)
-answer68_1 :: Integer
-answer68_1 = undefined
+answer68_1 :: String
+answer68_1 = concatMap (concatMap show . (\([o1, o2, o3, o4], [i1, i2, i3]) ->
+               [6, 5, 3, o1, 3, i1, o2, i1, i2, o3, i2, i3, o4, i3, 5])) $
+             filter (\([o1, o2, o3, o4], [i1, i2, i3]) ->
+                      o1 + 3 + i1 == 14 && o2 + i1 + i2 == 14 &&
+                      o3 + i2 + i3 == 14 && o4 + i3 + 5 == 14)
+                    [(o, i) | o <- permutate [7, 8, 9, 10],
+                              i <- permutate [1, 2, 4]]
 
 -- Problem 97: Large non-Mersenne prime
 -- --
 -- The first known prime found to exceed one million digits was discovered in
--- 1999, and is a Mersenne prime of the form 2^6972593−1; it contains exactly
--- 2,098,960 digits. Subsequently other Mersenne primes, of the form 2^p−1, have
--- been found which contain more digits.
+-- 1999, and is a Mersenne prime of the form 2 ^ 6972593 − 1; it contains
+-- exactly 2,098,960 digits. Subsequently other Mersenne primes, of the form
+-- 2 ^ p − 1, have been found which contain more digits.
 -- However, in 2004 there was found a massive non-Mersenne prime which contains
--- 2,357,207 digits: 28433×2^7830457+1.
+-- 2,357,207 digits: 28433 × 2 ^ 7830457 + 1.
 -- Find the last ten digits of this prime number.
 -- --
 -- Answer: 8739992577
 
--- answer97_1: O(?)
+-- answer97_1: O(1)
 answer97_1 :: Integer
 answer97_1 = (28433 * 2 ^ 7830457 + 1) `mod` 10000000000

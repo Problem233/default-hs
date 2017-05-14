@@ -3,8 +3,8 @@ extern crate permutohedron;
 
 pub mod lib;
 
-use lib::pe::*;
+use lib::trpl::pig_latin::*;
 
 fn main() {
-  answer68_1();
+  println!("{}", to_pig_latin(String::from("to harder math problems")));
 }

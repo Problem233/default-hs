@@ -11,6 +11,9 @@ import Math (fact)
 import Math (pascalsTriangle)
 -- Used by answer68_1
 import Data.List (permutations)
+-- Used by answer79_1
+import Control.Monad (forM)
+import Data.List (nub, sortBy)
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -261,6 +264,30 @@ answer68_1 = concatMap (concatMap show . (\([o1, o2, o3, o4], [i1, i2, i3]) ->
                       o3 + i2 + i3 == 14 && o4 + i3 + 5 == 14)
                     [(o, i) | o <- permutations [7, 8, 9, 10],
                               i <- permutations [1, 2, 4]]
+
+-- Problem 79: Passcode derivation
+-- --
+-- A common security method used for online banking is to ask the user for
+-- three random characters from a passcode. For example, if the passcode was
+-- 531278, they may ask for the 2nd, 3rd, and 5th characters; the expected
+-- reply would be: 317.
+-- The text file, [https://projecteuler.net/project/resources/p079_keylog.txt],
+-- contains fifty successful login attempts.
+-- Given that the three characters are always asked for in order, analyse the
+-- file so as to determine the shortest possible secret passcode of unknown
+-- length.
+-- --
+-- Answer: 73162890
+
+-- answer79_1: O(?)
+answer79_1 :: IO String
+answer79_1 = do
+  kl <- forM [1..50] (const getLine)
+  return $ sortBy (\c1 c2 ->
+    foldl (\o [a, b, c] ->
+            if c2 == a && (c1 == b || c1 == c) || c2 == b && c1 == c
+            then GT else o)
+          LT kl) $ nub $ concat kl
 
 -- Problem 97: Large non-Mersenne prime
 -- --

@@ -1,6 +1,7 @@
 module Math (
   pow,
   fact,
+  factor,
   primes,
   isCoprime,
   pascalsTriangle,
@@ -21,6 +22,11 @@ pow = powtailrec 1
 fact :: Integral a => a -> a
 fact 2 = 2
 fact n = n * fact (n - 1)
+
+factor :: Integral a => a -> [a]
+factor n = tail $ foldl
+             (\r x -> if n `mod` x == 0 then x : n `div` x : r else r)
+             [] [1..truncate $ sqrt $ fromIntegral n]
 
 primes :: Integral a => [a]
 primes = filterPrimes [2..]

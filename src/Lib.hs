@@ -2,10 +2,7 @@ module Lib (
   qsortBy, qsort,
   splitLines, isLineTerminator,
   unicode,
-  (.>),
   while,
-  RecFunc (..),
-  applyRF,
   rotate) where
 
 import Data.List (partition)
@@ -38,14 +35,6 @@ while :: a -> (a -> Bool) -> (a -> a) -> a
 while env p f
   | p env = while (f env) p f
   | otherwise = env
-
-(.>) :: (a -> b) -> (b -> c) -> a -> c
-(.>) = flip (.)
-
-newtype RecFunc a b = RF (RecFunc a b -> a -> b)
-
-applyRF :: RecFunc a b -> a -> b
-applyRF rf @ (RF f) = f rf
 
 rotate :: [[a]] -> [[a]]
 rotate (fl : rl) = rotateRec rl [fl]

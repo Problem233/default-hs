@@ -10,9 +10,9 @@ solequa n = [(a, b) | x <- [1..truncate $ sqrt $ fromIntegral n],
                           a = x + 2 * b]
 
 -- https://www.codewars.com/kata/is-my-friend-cheating/
--- It would fail because of the ordering problem.
 removNb :: Integer-> [(Integer, Integer)]
-removNb n = let s = sum [1..n]
-             in foldl (\r (x, y) -> if x * y == s - x - y
-                                    then (x, y) : (y, x) : r else r)
-                      [] [(x, y) | x <- [1..n], y <- [x + 1..n]]
+removNb n = let s = (1 + n) * n `div` 2
+             in [(x, y) | x <- [1..n],
+                          (s - x) `mod` (x + 1) == 0,
+                          let y = (s - x) `div` (x + 1),
+                          y <= n]

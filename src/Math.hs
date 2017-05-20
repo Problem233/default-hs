@@ -24,9 +24,12 @@ fact 2 = 2
 fact n = n * fact (n - 1)
 
 factor :: Integral a => a -> [a]
-factor n = tail $ foldl
+factor n = test $ foldl
              (\r x -> if n `mod` x == 0 then x : n `div` x : r else r)
              [] [1..truncate $ sqrt $ fromIntegral n]
+  where test (a : xs @ (b : _))
+          | a == b = xs
+        test xs = xs
 
 primes :: Integral a => [a]
 primes = filterPrimes [2..]

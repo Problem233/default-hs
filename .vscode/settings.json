@@ -31,6 +31,7 @@
     "utility": "cpp",
     "fstream": "cpp",
     "functional": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "vector": "cpp"
   }
 }

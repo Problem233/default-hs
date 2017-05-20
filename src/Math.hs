@@ -1,5 +1,4 @@
 module Math (
-  pow,
   fact,
   factor,
   primes,
@@ -10,14 +9,6 @@ module Math (
   searchPythagoreanTriple) where
 
 import Data.List (sort)
-
-pow :: Integral a => Rational -> a -> Rational
-pow = powtailrec 1
-  where powtailrec p x n
-          | x == 1 = 1
-          | n < 0 = 1 / pow x (- n)
-          | n == 0 = p
-          | otherwise = powtailrec (p * x) x (n - 1)
 
 fact :: Integral a => a -> a
 fact 2 = 2

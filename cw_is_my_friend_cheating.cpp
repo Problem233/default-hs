@@ -8,7 +8,7 @@ long long ceildiv(long long a, long long b) {
 
 class RemovedNumbers {
   public:
-	  static vector<vector<long long>> removNb(long long n) {
+    static vector<vector<long long>> removNb(long long n) {
       vector<vector<long long>> r;
       long long sum = (1 + n) * n / 2;
       long long min = ceildiv(n * (n - 1), (2 * (n + 1)));

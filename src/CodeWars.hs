@@ -10,7 +10,7 @@ solequa n = [(a, b) | x <- [1..truncate $ sqrt $ fromIntegral n],
                           a = x + 2 * b]
 
 -- https://www.codewars.com/kata/is-my-friend-cheating/
-removNb :: Integer-> [(Integer, Integer)]
+removNb :: Integer -> [(Integer, Integer)]
 removNb n = [(x, y) | x <- [min..n],
                       (sum - x) `mod` (x + 1) == 0,
                       let y = (sum - x) `div` (x + 1)]

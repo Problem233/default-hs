@@ -16,4 +16,4 @@ removNb n = [(x, y) | x <- [min..n],
                       let y = (sum - x) `div` (x + 1)]
   where sum = (1 + n) * n `div` 2
         min = let fn = fromIntegral n
-               in ceiling $ fn * (fn - 1) / 2 / (fn + 1)
+               in ceiling $ fn * (fn - 1) / (2 * (fn + 1))

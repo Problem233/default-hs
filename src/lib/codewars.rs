@@ -12,3 +12,18 @@ pub fn diophantine_equation(n: i64) -> Vec<(i32, i32)> {
   }
   r
 }
+
+pub fn is_my_friend_cheating(n: i64) -> Vec<(i64, i64)> {
+  fn ceildiv(a: i64, b: i64) -> i64 {
+    (a - 1) / b + 1
+  }
+  let mut r: Vec<(i64, i64)> = Vec::new();
+  let sum = (1 + n) * n / 2;
+  let min = ceildiv(n * (n - 1), (2 * (n + 1)));
+  for x in min..n + 1 {
+    if (sum - x) % (x + 1) == 0 {
+      r.push((x, (sum - x) / (x + 1)));
+    }
+  }
+  r
+}

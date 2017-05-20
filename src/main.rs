@@ -6,5 +6,5 @@ pub mod lib;
 use lib::codewars::*;
 
 fn main() {
-  println!("{:?}", diophantine_equation(90000001));
+  println!("{:?}", is_my_friend_cheating(101));
 }

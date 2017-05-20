@@ -11,8 +11,9 @@ solequa n = [(a, b) | x <- [1..truncate $ sqrt $ fromIntegral n],
 
 -- https://www.codewars.com/kata/is-my-friend-cheating/
 removNb :: Integer-> [(Integer, Integer)]
-removNb n = let s = (1 + n) * n `div` 2
-             in [(x, y) | x <- [1..n],
-                          (s - x) `mod` (x + 1) == 0,
-                          let y = (s - x) `div` (x + 1),
-                          y <= n]
+removNb n = [(x, y) | x <- [min..n],
+                      (sum - x) `mod` (x + 1) == 0,
+                      let y = (sum - x) `div` (x + 1)]
+  where sum = (1 + n) * n `div` 2
+        min = let fn = fromIntegral n
+               in ceiling $ fn * (fn - 1) / 2 / (fn + 1)

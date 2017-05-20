@@ -3,8 +3,8 @@ extern crate permutohedron;
 
 pub mod lib;
 
-use lib::trpl::pig_latin::*;
+use lib::codewars::*;
 
 fn main() {
-  println!("{}", to_pig_latin(String::from("to harder math problems")));
+  println!("{:?}", diophantine_equation(90000001));
 }

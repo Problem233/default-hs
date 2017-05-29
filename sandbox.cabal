@@ -1,8 +1,8 @@
-name:                default-hs
+name:                sandbox
 version:             0.1.0.0
 synopsis:            Junk code
 description:         Please see README.md
-homepage:            https://github.com/problem233/default-hs#readme
+homepage:            https://github.com/problem233/sandbox#readme
 license:             OtherLicense
 license-file:        LICENSE
 author:              Problem233
@@ -33,7 +33,7 @@ executable sptt
   hs-source-dirs:      sptt
   main-is:             SPTT.hs
   build-depends:       base >= 4.7 && < 5
-                     , default-hs
+                     , sandbox
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
@@ -42,10 +42,10 @@ test-suite default-hs-test
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base >= 4.7 && < 5
-                     , default-hs
+                     , sandbox
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/problem233/default-hs
+  location: https://github.com/problem233/sandbox

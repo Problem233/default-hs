@@ -1,19 +1,15 @@
 {
   "version": "0.1.0",
   "isShellCommand": true,
-  "command": "zsh",
-  "args": ["-c"],
+  "command": "%USERPROFILE%\\Software\\stack.bat",
+  "args": ["exec", "--", "bash", "-c"],
   "showOutput": "always",
   "suppressTaskName": true,
   "tasks": [
     {
       "isBuildCommand": true,
-      "taskName": "compile with clang++",
-      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && clang++ -std=c++11 -o ./exe/$FILENAME ${file}"]
-    },
-    {
       "taskName": "compile with g++",
-      "args": ["FILENAME=$(basename -s .cpp \"${file}\") && g++ -o ./exe/$FILENAME ${file}"]
+      "args": ["\"SOURCE=$(cygpath \\\"${file}\\\") && FILENAME=$(basename -s .cpp $SOURCE) && g++ -o ./exe/$FILENAME.exe $SOURCE\""]
     }
   ]
 }

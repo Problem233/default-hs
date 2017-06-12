@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
-  "command": "zsh",
-  "args": ["-c"],
+  "command": "%USERPROFILE%\\Software\\stack.bat",
+  "args": ["exec", "--", "bash", "-c"],
   "isShellCommand": true,
   "showOutput": "always",
   "suppressTaskName": true,

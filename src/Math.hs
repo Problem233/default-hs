@@ -1,6 +1,7 @@
 module Math (
   fact,
-  factor,
+  factors,
+  numOfFactors,
   primes,
   isCoprime,
   pascalsTriangle,
@@ -14,13 +15,18 @@ fact :: Integral a => a -> a
 fact 2 = 2
 fact n = n * fact (n - 1)
 
-factor :: Integral a => a -> [a]
-factor n = test $ foldl
-             (\r x -> if n `mod` x == 0 then x : n `div` x : r else r)
-             [] [1..truncate $ sqrt $ fromIntegral n]
+factors :: Integral a => a -> [a]
+factors n = test $ foldl (\r x -> x : n `div` x : r) []
+              [x | x <- [1..truncate $ sqrt $ fromIntegral n], n `mod` x == 0]
   where test (a : xs @ (b : _))
           | a == b = xs
         test xs = xs
+
+numOfFactors :: Integral a => a -> Integer
+numOfFactors n = let sqrtN = truncate $ sqrt $ fromIntegral n
+                     r = foldl (\r _ -> r + 2) 0
+                               [x | x <- [1..sqrtN], n `mod` x == 0]
+                  in if sqrtN * sqrtN == n then r - 1 else r
 
 primes :: Integral a => [a]
 primes = filterPrimes [2..]
@@ -34,7 +40,7 @@ pascalsTriangle :: Integral a => [[a]]
 pascalsTriangle = generate $ repeat 1
   where generate xs = xs : generate (generateRaw 1 $ tail xs)
         generateRaw l (u : r) = let n = l + u
-                                  in l : generateRaw n r
+                                 in l : generateRaw n r
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n

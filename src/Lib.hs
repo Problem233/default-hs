@@ -28,7 +28,7 @@ splitLines str =
 isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
 
-unicode :: [Char] -- 无视这个 hlint 警告
+unicode :: [Char] -- 无视这个 hlint 建议
 unicode = ['\x0'..'\x10ffff']
 
 while :: a -> (a -> Bool) -> (a -> a) -> a

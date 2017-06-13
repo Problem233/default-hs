@@ -1,21 +1,17 @@
 module ProjectEuler where
 
--- Used by answer11_1
-import Data.List (transpose, tails)
-import Lib (rotate)
--- Used by answer5_1
-import Math (primes)
--- Used by answer12_1
-import Math (numOfFactors)
--- Used by answer15_1
-import Math (fact)
--- Used by answer15_3
-import Math (pascalsTriangle)
--- Used by answer68_1
-import Data.List (permutations)
--- Used by answer79_1
-import Control.Monad (forM)
-import Data.List (nub, sortBy)
+import Control.Monad (forM) -- Used by answer79_1
+import Data.List (
+  transpose, tails, -- Used by answer11_1
+  sort, -- Used by answer62_1
+  permutations, -- Used by answer68_1
+  nub, sortBy) -- Used by answer79_1
+import Lib (rotate) -- Used by answer11_1
+import Math (
+  primes, -- Used by answer5_1
+  numOfFactors, -- Used by answer12_1
+  fact, -- Used by answer15_1
+  pascalsTriangle) -- Used by answer15_3
 
 -- Problem 1: Mutiple of 3 and 5
 -- --
@@ -254,6 +250,48 @@ answer15_2 = cal 20 20
 -- answer15_3: O(?)
 answer15_3 :: Integer
 answer15_3 = pascalsTriangle !! 20 !! 20
+
+-- Problem 60: Prime pair sets
+-- --
+-- The primes 3, 7, 109, and 673, are quite remarkable. By taking any two
+-- primes and concatenating them in any order the result will always be prime.
+-- For example, taking 7 and 109, both 7109 and 1097 are prime. The sum of
+-- these four primes, 792, represents the lowest sum for a set of four primes
+-- with this property.
+-- Find the lowest sum for a set of five primes for which any two primes
+-- concatenate to produce another prime.
+-- --
+-- Answer: ??
+
+-- answer60_1: O(?)
+-- I can't solve it yet now.
+answer60_1 :: Integer
+answer60_1 = undefined
+
+-- Problem 62: Cubic permutations
+-- --
+-- The cube, 41063625 (345^3), can be permuted to produce two other cubes:
+-- 56623104 (384^3) and 66430125 (405^3). In fact, 41063625 is the smallest
+-- cube which has exactly three permutations of its digits which are also cube.
+-- Find the smallest cube for which exactly five permutations of its digits are
+-- cube.
+-- --
+-- Answer: 127035954683
+
+-- andwer62_1: O(?)
+answer62_1 :: String
+answer62_1 = search 0 1 [] cubes
+  where cubes = [(c, sort c) | x <- [1..], let c = show $ x * x * x]
+        search x y l cs @ ((n, c) : r)
+          | length c > x = search (x + 1) 1 [] cs
+          | otherwise = let (nl, ny, nr) = add c n l []
+                         in if ny <= y then search x y nl r
+                            else if ny == 5 then nr
+                            else search x ny nl r
+        add c n ((t @ (c', n', y)) : r) res
+          | c == c' = (r ++ (c', n', y + 1) : res, y + 1, n')
+          | otherwise = add c n r (t : res)
+        add c n [] res = ((c, n, 1) : res, 1, "")
 
 -- Problem 68: Magic 5-gon ring
 -- --

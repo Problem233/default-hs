@@ -280,17 +280,16 @@ answer60_1 = undefined
 
 -- andwer62_1: O(?)
 answer62_1 :: String
-answer62_1 = search 0 1 [] cubes
+answer62_1 = search 0 [] cubes
   where cubes = [(c, sort c) | x <- [1..], let c = show $ x * x * x]
-        search x y l cs @ ((n, c) : r)
-          | length c > x = search (x + 1) 1 [] cs
-          | otherwise = let (nl, ny, nr) = add c n l []
-                         in if ny <= y then search x y nl r
-                            else if ny == 5 then nr
-                            else search x ny nl r
-        add c n ((t @ (c', n', y)) : r) res
-          | c == c' = (r ++ (c', n', y + 1) : res, y + 1, n')
-          | otherwise = add c n r (t : res)
+        search x l cs @ ((n, c) : r)
+          | length c > x = search (x + 1) [] cs
+          | otherwise = let (nl, t, nr) = add c n l []
+                         in if t == 5 then nr
+                            else search x nl r
+        add c n ((tu @ (c', n', t)) : r) res
+          | c == c' = (r ++ (c', n', t + 1) : res, t + 1, n')
+          | otherwise = add c n r (tu : res)
         add c n [] res = ((c, n, 1) : res, 1, "")
 
 -- Problem 68: Magic 5-gon ring

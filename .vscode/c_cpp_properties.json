@@ -1,0 +1,58 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceRoot}",
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [],
+            "browse": {
+                "path": [
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}",
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [],
+            "browse": {
+                "path": [
+                    "/usr/include",
+                    "/usr/local/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceRoot}",
+                "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0",
+                "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE"
+            ],
+            "browse": {
+                "path": [
+                   "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0",
+                   "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ]
+}

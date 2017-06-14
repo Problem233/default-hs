@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "iostream": "cpp",
+    "iosfwd": "cpp",
+    "cmath": "cpp",
+    "cstdint": "cpp",
+    "exception": "cpp",
+    "initializer_list": "cpp",
+    "istream": "cpp",
+    "ostream": "cpp",
+    "streambuf": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "algorithm": "cpp"
+  }
+}

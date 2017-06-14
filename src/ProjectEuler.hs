@@ -225,7 +225,7 @@ answer9_1 = let (a, b, c) = head $
 
 -- answer10_1: O(?)
 answer10_1 :: Integer
-answer10_1 = sum $ takeWhile (< 2000000) $ primesBounded 2000000
+answer10_1 = sum $ primesBounded 2000000
 
 -- Problem 11: Largest product in a grid
 -- --

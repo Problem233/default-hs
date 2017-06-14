@@ -1,14 +1,17 @@
 module ProjectEuler where
 
 import Control.Monad (forM) -- Used by answer79_1
+import Data.Char (digitToInt) -- Used by answer8_1
 import Data.List (
-  transpose, tails, -- Used by answer11_1
+  transpose, -- Used by answer11_1
+  tails, -- Used by answer8_1, answer11_1
   sort, -- Used by answer62_1
   permutations, -- Used by answer68_1
   nub, sortBy) -- Used by answer79_1
 import Lib (rotate) -- Used by answer11_1
 import Math (
-  primes, -- Used by answer5_1
+  primes, -- Used by answer5_1, answer7_1
+  primesBounded, -- Used by answer10_1
   numOfFactors, -- Used by answer12_1
   fact, -- Used by answer15_1
   pascalsTriangle) -- Used by answer15_3
@@ -111,6 +114,90 @@ answer5_1 = product $
             map (\x -> last $ takeWhile (<= 20) $ map (x ^) [1..]) $
             takeWhile (<= 20) primes
 
+-- Problem 6: Sum square difference
+-- --
+-- The sum of the squares of the first ten natural numbers is,
+-- 12 + 22 + ... + 102 = 385
+-- The square of the sum of the first ten natural numbers is,
+-- (1 + 2 + ... + 10)2 = 552 = 3025
+-- Hence the difference between the sum of the squares of the first ten natural
+-- numbers and the square of the sum is 3025 − 385 = 2640.
+-- Find the difference between the sum of the squares of the first one hundred
+-- natural numbers and the square of the sum.
+-- --
+-- Answer: 25164150
+
+-- answer6_1: O(?)
+answer6_1 :: Integer
+answer6_1 = sqr (sum [1..100]) - sum [sqr x | x <- [1..100]]
+  where sqr x = x * x
+
+-- Problem 7: 10001st prime
+-- --
+-- By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see
+-- that the 6th prime is 13.
+-- What is the 10 001st prime number?
+-- --
+-- Answer: 104743
+
+-- answer7_1: O(?)
+answer7_1 :: Integer
+answer7_1 = primes !! 10000
+
+-- Problem 8: Largest product in a series
+-- --
+-- The four adjacent digits in the 1000-digit number that have the greatest
+-- product are 9 × 9 × 8 × 9 = 5832.
+-- 73167176531330624919225119674426574742355349194934
+-- 96983520312774506326239578318016984801869478851843
+-- 85861560789112949495459501737958331952853208805511
+-- 12540698747158523863050715693290963295227443043557
+-- 66896648950445244523161731856403098711121722383113
+-- 62229893423380308135336276614282806444486645238749
+-- 30358907296290491560440772390713810515859307960866
+-- 70172427121883998797908792274921901699720888093776
+-- 65727333001053367881220235421809751254540594752243
+-- 52584907711670556013604839586446706324415722155397
+-- 53697817977846174064955149290862569321978468622482
+-- 83972241375657056057490261407972968652414535100474
+-- 82166370484403199890008895243450658541227588666881
+-- 16427171479924442928230863465674813919123162824586
+-- 17866458359124566529476545682848912883142607690042
+-- 24219022671055626321111109370544217506941658960408
+-- 07198403850962455444362981230987879927244284909188
+-- 84580156166097919133875499200524063689912560717606
+-- 05886116467109405077541002256983155200055935729725
+-- 71636269561882670428252483600823257530420752963450
+-- Find the thirteen adjacent digits in the 1000-digit number that have the
+-- greatest product. What is the value of this product?
+-- --
+-- Answer: 23514624000
+
+-- answer8_1: O(?)
+answer8_1 :: Int
+answer8_1 = foldl (\m -> max m . product . map digitToInt . take 13) 0 $
+            takeWhile ((>= 13) . length) $ tails series
+  where series = "73167176531330624919225119674426574742355349194934" ++
+                 "96983520312774506326239578318016984801869478851843" ++
+                 "85861560789112949495459501737958331952853208805511" ++
+                 "12540698747158523863050715693290963295227443043557" ++
+                 "66896648950445244523161731856403098711121722383113" ++
+                 "62229893423380308135336276614282806444486645238749" ++
+                 "30358907296290491560440772390713810515859307960866" ++
+                 "70172427121883998797908792274921901699720888093776" ++
+                 "65727333001053367881220235421809751254540594752243" ++
+                 "52584907711670556013604839586446706324415722155397" ++
+                 "53697817977846174064955149290862569321978468622482" ++
+                 "83972241375657056057490261407972968652414535100474" ++
+                 "82166370484403199890008895243450658541227588666881" ++
+                 "16427171479924442928230863465674813919123162824586" ++
+                 "17866458359124566529476545682848912883142607690042" ++
+                 "24219022671055626321111109370544217506941658960408" ++
+                 "07198403850962455444362981230987879927244284909188" ++
+                 "84580156166097919133875499200524063689912560717606" ++
+                 "05886116467109405077541002256983155200055935729725" ++
+                 "71636269561882670428252483600823257530420752963450"
+
 -- Problem 9: Special Pythagorean triplet
 -- --
 -- A Pythagorean triplet is a set of three natural numbers, a < b < c, for
@@ -128,6 +215,17 @@ answer9_1 = let (a, b, c) = head $
                               [(a, b, 1000 - a - b) |
                                 a <- [1..500], b <- [a..500]]
              in a * b * c
+
+-- Problem 10: Summation of primes
+-- --
+-- The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+-- Find the sum of all the primes below two million.
+-- --
+-- Answer: 142913828922
+
+-- answer10_1: O(?)
+answer10_1 :: Integer
+answer10_1 = sum $ takeWhile (< 2000000) $ primesBounded 2000000
 
 -- Problem 11: Largest product in a grid
 -- --

@@ -3,6 +3,7 @@ module Math (
   factors,
   numOfFactors,
   primes,
+  primesBounded,
   isCoprime,
   pascalsTriangle,
   pythagoreanTriple,
@@ -29,9 +30,16 @@ numOfFactors n = let sqrtN = truncate $ sqrt $ fromIntegral n
                   in if sqrtN * sqrtN == n then r - 1 else r
 
 primes :: Integral a => [a]
-primes = filterPrimes [2..]
-  where filterPrimes (x : xs) = x : filterPrimes
-          (filter ((/= 0) . (`rem` x)) xs)
+primes = 2 : filterPrimes [3, 5..]
+  where filterPrimes (x : xs) =
+          x : filterPrimes (filter (\n -> n `mod` x /= 0) xs)
+
+primesBounded :: Integral a => a -> [a]
+primesBounded m = 2 : filterPrimes [3, 5..m]
+  where filterPrimes all @ (x : xs)
+          | x > bound = all
+          | otherwise = x : filterPrimes (filter (\n -> n `mod` x /= 0) xs)
+        bound = floor $ sqrt $ fromIntegral m
 
 isCoprime :: Integral a => a -> a -> Bool
 isCoprime a b = gcd a b == 1

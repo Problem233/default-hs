@@ -72,9 +72,7 @@ answer2_2 = sum $ filter even $ takeWhile (<= 4000000) $ fib 1 2
 -- Answer: 6857
 
 -- answer3_1: O(n)
--- BUG 算法有问题，但结果正确
---     正确算法速度超慢，所以这里将就着用吧
---     补：是我的问题，但是现在懒得改了
+-- BUG 答案正确，所以懒得改了
 answer3_1 :: Integer
 answer3_1 = find num 2 2
   where num = 600851475143

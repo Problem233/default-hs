@@ -8,11 +8,6 @@
 #include <random>
 #include <functional>
 
-#define TEST_RADIX 10
-#define NUM_OF_TESTS 25
-#define TEST_RAND_MIN -1e12
-#define TEST_RAND_MAX 1e12
-
 using namespace std;
 
 inline Num double_to_num(double n) {
@@ -22,15 +17,26 @@ inline Num double_to_num(double n) {
   return res;
 }
 
-int main() {
-  cout << "radix: " << TEST_RADIX << endl;
-  cout << "number of tests: " << NUM_OF_TESTS << endl;
+int main(int argc, char * argv[]) {
+  if (argc != 5) {
+    cout << "illegal arguments" << endl;
+    cout << "usage: hyper_cal_test"
+         << " <radix> <num_of_tests> <rand_min> <rand_max>" << endl;
+    return 1;
+  }
+  int radix = atoi(argv[1]);
+  int num_tests = atoi(argv[2]);
+  double rand_min = atof(argv[3]);
+  double rand_max = atof(argv[4]);
+
+  cout << "radix: " << radix << endl;
+  cout << "number of tests: " << num_tests << endl;
   cout << endl;
 
   default_random_engine rand_eng(__rdtsc());
   uniform_int_distribution<int> rand_op_dist(0, 3);
   auto rand_op = bind(rand_op_dist, rand_eng);
-  uniform_real_distribution<double> rand_num_dist(TEST_RAND_MIN, TEST_RAND_MAX);
+  uniform_real_distribution<double> rand_num_dist(rand_min, rand_max);
   auto rand_num = bind(rand_num_dist, rand_eng);
 
   double num = rand_num();
@@ -39,7 +45,7 @@ int main() {
   printf("initital value: %.32g\n", num);
   cout << endl;
 
-  for (int i = 1; i <= NUM_OF_TESTS; i++) {
+  for (int i = 1; i <= num_tests; i++) {
     char opc;
     num = rand_num();
     Num num_h = double_to_num(num);

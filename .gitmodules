@@ -1,0 +1,3 @@
+[submodule "lib/hyper_cal"]
+	path = lib/hyper_cal
+	url = https://github.com/frankfoot/HyperCalculation.git

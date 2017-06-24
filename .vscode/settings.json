@@ -11,6 +11,17 @@
     "streambuf": "cpp",
     "type_traits": "cpp",
     "utility": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "cstdlib": "cpp",
+    "*.tcc": "cpp",
+    "cctype": "cpp",
+    "clocale": "cpp",
+    "cstdio": "cpp",
+    "cstring": "cpp",
+    "cwchar": "cpp",
+    "limits": "cpp",
+    "new": "cpp",
+    "typeinfo": "cpp",
+    "string": "cpp"
   }
 }

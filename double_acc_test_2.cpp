@@ -1,10 +1,13 @@
 #include <iostream>
+#include <cmath>
+
+#define EXP 16445
 
 using namespace std;
 
 int main() {
-  double num = 0.5;
-  for (int i = 1; i < 1074; i++) num = num / 2;
-  printf("2^-1074 = %.1100f\n\n", num);
+  long double num = 0.5;
+  for (int i = 1; i < EXP; i++) num = num / 2;
+  printf("2^-%d = %.16445Lf\n\n", EXP, num);
   return 0;
 }

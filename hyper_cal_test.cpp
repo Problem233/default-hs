@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdlib>
 #include <random>
+#include <functional>
 
 #define TEST_RADIX 10
 #define NUM_OF_TESTS 25
@@ -31,10 +32,12 @@ int main() {
   cout << endl;
 
   default_random_engine rand_eng(__rdtsc());
-  uniform_int_distribution<int> rand_op(0, 4);
-  uniform_real_distribution<double> rand_num(TEST_RAND_MIN, TEST_RAND_MAX);
+  uniform_int_distribution<int> rand_op_dist(0, 3);
+  auto rand_op = bind(rand_op_dist, rand_eng);
+  uniform_real_distribution<double> rand_num_dist(TEST_RAND_MIN, TEST_RAND_MAX);
+  auto rand_num = bind(rand_num_dist, rand_eng);
 
-  double num = rand_num(rand_eng);
+  double num = rand_num();
   double res_d = num;
   Num res_h; res_h.In(double_to_cstring(num));
   cout << "initital value: " << DOUBLE_PREC << num << endl;
@@ -42,9 +45,9 @@ int main() {
 
   for (int i = 1; i <= NUM_OF_TESTS; i++) {
     char opc;
-    num = rand_num(rand_eng);
+    num = rand_num();
     Num num_h; num_h.In(double_to_cstring(num));
-    switch (rand_op(rand_eng)) {
+    switch (rand_op()) {
       case 0: opc = '+';
               res_d = res_d + num;
               res_h = res_h + num_h;

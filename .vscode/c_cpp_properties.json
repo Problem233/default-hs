@@ -39,8 +39,7 @@
             "includePath": [
                 "${workspaceRoot}",
                 "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0",
-                "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32",
-                "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/x86_64-w64-mingw32/include"
+                "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32"
             ],
             "defines": [
                 "_DEBUG",
@@ -49,8 +48,7 @@
             "browse": {
                 "path": [
                    "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0",
-                   "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32",
-                   "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/x86_64-w64-mingw32/include"
+                   "C:/Users/Probl/AppData/Local/Programs/stack/x86_64-windows/msys2-20161025/mingw64/include/c++/6.3.0/x86_64-w64-mingw32"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

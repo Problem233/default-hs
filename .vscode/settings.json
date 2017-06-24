@@ -22,6 +22,14 @@
     "limits": "cpp",
     "new": "cpp",
     "typeinfo": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "iomanip": "cpp",
+    "array": "cpp",
+    "ctime": "cpp",
+    "cwctype": "cpp",
+    "sstream": "cpp",
+    "stdexcept": "cpp",
+    "system_error": "cpp",
+    "tuple": "cpp"
   }
 }

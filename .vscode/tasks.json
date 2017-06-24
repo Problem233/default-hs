@@ -10,6 +10,10 @@
       "isBuildCommand": true,
       "taskName": "compile with g++",
       "args": ["SOURCE=$(cygpath \\\"${file}\\\") && FILENAME=$(basename -s .cpp $SOURCE) && g++ -std=c++14 -I . -o ./exe/$FILENAME.exe $SOURCE"]
+    },
+    {
+      "taskName": "release with g++",
+      "args": ["SOURCE=$(cygpath \\\"${file}\\\") && FILENAME=$(basename -s .cpp $SOURCE) && g++ -std=c++14 -O3 -I . -o ./exe/$FILENAME.exe $SOURCE"]
     }
   ]
 }

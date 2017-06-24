@@ -3,8 +3,6 @@
 # include <cstdio>
 # include <cmath>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <string>
 #include <cstdlib>
 #include <random>
@@ -12,18 +10,16 @@
 
 #define TEST_RADIX 10
 #define NUM_OF_TESTS 25
-#define DOUBLE_PREC setprecision(2048)
-#define TEST_RAND_MIN -1e8
-#define TEST_RAND_MAX 1e8
+#define TEST_RAND_MIN -1e12
+#define TEST_RAND_MAX 1e12
 
 using namespace std;
 
-inline char * double_to_cstring(double n) {
-  ostringstream stout;
-  stout << DOUBLE_PREC << n;
-  const char * str = stout.str().c_str();
-  char res[sizeof str] = { '\0' };
-  return strcpy(res, str);
+inline Num double_to_num(double n) {
+  char str[40] = { '\0' };
+  sprintf(str, "%.32g", n);
+  Num res; res.In(str);
+  return res;
 }
 
 int main() {
@@ -39,14 +35,14 @@ int main() {
 
   double num = rand_num();
   double res_d = num;
-  Num res_h; res_h.In(double_to_cstring(num));
-  cout << "initital value: " << DOUBLE_PREC << num << endl;
+  Num res_h = double_to_num(num);
+  printf("initital value: %.32g\n", num);
   cout << endl;
 
   for (int i = 1; i <= NUM_OF_TESTS; i++) {
     char opc;
     num = rand_num();
-    Num num_h; num_h.In(double_to_cstring(num));
+    Num num_h = double_to_num(num);
     switch (rand_op()) {
       case 0: opc = '+';
               res_d = res_d + num;
@@ -65,8 +61,8 @@ int main() {
               res_h = res_h / num_h;
               break;
     }
-    cout << opc << ' ' << DOUBLE_PREC << num << ":" << endl;
-    cout << "  double result: " << DOUBLE_PREC << res_d << endl;
+    printf("%c %.32g:\n", opc, num);
+    printf("  double result: %.309g\n", res_d);
     cout << "  hyper_cal result: "; res_h.Out(); cout << endl;
     cout << endl;
   }

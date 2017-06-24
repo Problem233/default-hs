@@ -30,6 +30,7 @@
     "sstream": "cpp",
     "stdexcept": "cpp",
     "system_error": "cpp",
-    "tuple": "cpp"
+    "tuple": "cpp",
+    "functional": "cpp"
   }
 }

@@ -18,20 +18,15 @@ inline Num double_to_num(double n) {
 }
 
 int main(int argc, char * argv[]) {
-  if (argc != 5) {
+  if (argc != 4) {
     cout << "illegal arguments" << endl;
     cout << "usage: hyper_cal_test"
-         << " <radix> <num_of_tests> <rand_min> <rand_max>" << endl;
+         << " <num_of_tests> <rand_min> <rand_max>" << endl;
     return 1;
   }
-  int radix = atoi(argv[1]);
-  int num_tests = atoi(argv[2]);
-  double rand_min = atof(argv[3]);
-  double rand_max = atof(argv[4]);
-
-  cout << "radix: " << radix << endl;
-  cout << "number of tests: " << num_tests << endl;
-  cout << endl;
+  int num_tests = atoi(argv[1]);
+  double rand_min = atof(argv[2]);
+  double rand_max = atof(argv[3]);
 
   default_random_engine rand_eng(__rdtsc());
   uniform_int_distribution<int> rand_op_dist(0, 3);
@@ -67,8 +62,9 @@ int main(int argc, char * argv[]) {
               res_h = res_h / num_h;
               break;
     }
-    printf("%c %.32g:\n", opc, num);
-    printf("  double result: %.309g\n", res_d);
+    cout << '#' << i << ':' << endl;
+    printf("  operator: %c  num: %.32g\n", opc, num);
+    printf("     double result: %.309g\n", res_d);
     cout << "  hyper_cal result: "; res_h.Out(); cout << endl;
     cout << endl;
   }

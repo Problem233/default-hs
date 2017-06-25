@@ -1,4 +1,5 @@
 module Lib (
+  count,
   qsortBy, qsort,
   splitLines, isLineTerminator,
   unicode,
@@ -6,6 +7,13 @@ module Lib (
   rotate) where
 
 import Data.List (partition)
+
+count :: Integral n => (a -> Bool) -> [a] -> n
+count c = loop 0
+  where loop n (x : xs)
+          | c x = loop (n + 1) xs
+          | otherwise = loop n xs
+        loop n [] = n
 
 qsortBy :: [a] -> (a -> a -> Bool) -> [a]
 qsortBy [] _ = []

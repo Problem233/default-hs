@@ -1,14 +1,17 @@
 module ProjectEuler where
 
 import Control.Monad (forM) -- Used by answer79_1
-import Data.Char (digitToInt) -- Used by answer8_1
+import Data.Char (digitToInt) -- Used by answer8_1, answer56_1
 import Data.List (
   transpose, -- Used by answer11_1
   tails, -- Used by answer8_1, answer11_1
   sort, -- Used by answer62_1
   permutations, -- Used by answer68_1
-  nub, sortBy) -- Used by answer79_1
-import Lib (rotate) -- Used by answer11_1
+  nub, -- Used by answer79_1
+  sortBy) -- Used by answer79_1, answer56_1
+import Lib (
+  rotate, -- Used by answer11_1
+  count) -- Used by answer55_1
 import Math (
   primes, -- Used by answer5_1, answer7_1
   primesBounded, -- Used by answer10_1
@@ -346,6 +349,59 @@ answer15_2 = cal 20 20
 -- answer15_3: O(?)
 answer15_3 :: Integer
 answer15_3 = pascalsTriangle !! 20 !! 20
+
+-- Problem 55: Lychrel numbers
+-- --
+-- If we take 47, reverse and add, 47 + 74 = 121, which is palindromic.
+-- Not all numbers produce palindromes so quickly. For example,
+-- 349 + 943 = 1292,
+-- 1292 + 2921 = 4213
+-- 4213 + 3124 = 7337
+-- That is, 349 took three iterations to arrive at a palindrome.
+-- Although no one has proved it yet, it is thought that some numbers, like
+-- 196, never produce a palindrome. A number that never forms a palindrome
+-- through the reverse and add process is called a Lychrel number. Due to the
+-- theoretical nature of these numbers, and for the purpose of this problem, we
+-- shall assume that a number is Lychrel until proven otherwise. In addition
+-- you are given that for every number below ten-thousand, it will either (i)
+-- become a palindrome in less than fifty iterations, or, (ii) no one, with all
+-- the computing power that exists, has managed so far to map it to a
+-- palindrome. In fact, 10677 is the first number to be shown to require over
+-- fifty iterations before producing a palindrome: 4668731596684224866951378664
+-- (53 iterations, 28-digits).
+-- Surprisingly, there are palindromic numbers that are themselves Lychrel
+-- numbers; the first example is 4994.
+-- How many Lychrel numbers are there below ten-thousand?
+-- NOTE: Wording was modified slightly on 24 April 2007 to emphasise the
+-- theoretical nature of Lychrel numbers.
+-- --
+-- Answer: 249
+
+-- answer55_1: O(?)
+answer55_1 :: Int
+answer55_1 = count isLychrel [1..10000]
+  where isLychrel = loop 0
+            where loop t x
+                    | t == 0 = f
+                    | t == 50 = True
+                    | isPalindromic x  = False
+                    | otherwise = f
+                    where f = loop (t + 1) (x + read (reverse $ show x))
+        isPalindromic n = let s = show n in s == reverse s
+
+-- Problem 56: Powerful digit sum
+-- --
+-- A googol (10 ^ 100) is a massive number: one followed by one-hundred zeros;
+-- 100 ^ 100 is almost unimaginably large: one followed by two-hundred zeros.
+-- Despite their size, the sum of the digits in each number is only 1.
+-- Considering natural numbers of the form, ab, where a, b < 100, what is the
+-- maximum digital sum?
+-- --
+-- Answer: 369729637649726772657187905628805440595668764281741102430259972423552570455277523421410650010128232727940978889548326540119429996769494359451621570193644014418071060667659301384999779999159200499899
+
+answer56_1 :: Integer
+answer56_1 = maximum [sum $ map (toInteger . digitToInt) $ show (a ^ b)
+                     | a <- [1..99], b <- [1..99]]
 
 -- Problem 60: Prime pair sets
 -- --

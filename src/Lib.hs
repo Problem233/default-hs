@@ -8,12 +8,8 @@ module Lib (
 
 import Data.List (partition)
 
-count :: Integral n => (a -> Bool) -> [a] -> n
-count c = loop 0
-  where loop n (x : xs)
-          | c x = loop (n + 1) xs
-          | otherwise = loop n xs
-        loop n [] = n
+count :: (a -> Bool) -> [a] -> Int
+count c = length . filter c
 
 qsortBy :: [a] -> (a -> a -> Bool) -> [a]
 qsortBy [] _ = []

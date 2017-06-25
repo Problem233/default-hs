@@ -399,6 +399,7 @@ answer55_1 = count isLychrel [1..10000]
 -- --
 -- Answer: 972
 
+-- answer56_1: O(?)
 answer56_1 :: Integer
 answer56_1 = maximum [sum $ map (toInteger . digitToInt) $ show (a ^ b)
                      | a <- [1..99], b <- [1..99]]

@@ -4,7 +4,8 @@ module Lib (
   splitLines, isLineTerminator,
   unicode,
   while,
-  rotate) where
+  rotate,
+  (<%>)) where
 
 import Data.List (partition)
 
@@ -48,3 +49,6 @@ rotate (fl : rl) = rotateRec rl [fl]
           (lh : lt) ->
             rotateRec lt (lh : removeNull (map tail r))
           where removeNull = filter (not . null)
+
+(<%>) :: Functor f => f a -> (a -> b) -> f b
+(<%>) = flip fmap

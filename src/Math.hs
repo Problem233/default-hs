@@ -49,9 +49,9 @@ isCoprime a b = gcd a b == 1
 
 pascalsTriangle :: Integral a => [[a]]
 pascalsTriangle = geneRationae $ repeat 1
-  where geneRationae xs = xs : geneRationae (geneRationaeRaw 1 $ tail xs)
-        geneRationaeRaw l (u : r) = let n = l + u
-                                 in l : geneRationaeRaw n r
+  where generate xs = xs : generate (generateRaw 1 $ tail xs)
+        generateRaw l (u : r) = let n = l + u
+                                 in l : generateRaw n r
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n

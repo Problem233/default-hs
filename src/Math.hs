@@ -48,7 +48,7 @@ isCoprime :: Integral a => a -> a -> Bool
 isCoprime a b = gcd a b == 1
 
 pascalsTriangle :: Integral a => [[a]]
-pascalsTriangle = geneRationae $ repeat 1
+pascalsTriangle = generate $ repeat 1
   where generate xs = xs : generate (generateRaw 1 $ tail xs)
         generateRaw l (u : r) = let n = l + u
                                  in l : generateRaw n r

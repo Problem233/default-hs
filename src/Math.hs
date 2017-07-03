@@ -15,7 +15,6 @@ module Math (
 import Text.Read (readPrec)
 import Text.ParserCombinators.ReadP (char, skipSpaces)
 import Text.ParserCombinators.ReadPrec (lift)
-import Data.Char (isSpace)
 import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))

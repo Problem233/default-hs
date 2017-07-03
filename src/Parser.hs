@@ -1,6 +1,6 @@
 module Parser (
   Parser (..),
-  item, satisfy,
+  item, satisfy, oneOf, noneOf,
   sepBy, sepBy',
   chainl, chainl',
   char, string,
@@ -46,6 +46,14 @@ satisfy p = do
   c <- item
   if p c then return c else mzero
 
+-- 匹配给定的字符之一
+oneOf :: [Char] -> Parser Char -- 无视这个 hlint 建议
+oneOf cs = satisfy $ flip elem cs
+
+-- 匹配除了给定的字符以外的字符
+noneOf :: [Char] -> Parser Char -- 无视这个 hlint 建议
+noneOf cs = satisfy $ not . flip elem cs
+
 -- 匹配一个特定的字符
 char :: Char -> Parser Char
 char c = satisfy (c ==)
@@ -69,7 +77,7 @@ sepBy' p sep = do
   as <- many $ sep >> p
   return (a : as)
 
--- 类似于 foldl？a 是当没有匹配时的默认值
+-- 类似于 foldl1
 chainl :: Parser a -> Parser (a -> a -> a) -> a -> Parser a
 chainl p op a = (p `chainl'` op) <|> return a
 

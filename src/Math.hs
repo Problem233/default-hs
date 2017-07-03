@@ -5,12 +5,17 @@ module Math (
   primes,
   primesBounded,
   isCoprime,
+  continuedFrac,
   pascalsTriangle,
   pythagoreanTriple,
   pythagoreanTriples,
   searchPythagoreanTriple,
   Rationa, (%)) where
 
+import Text.Read (readPrec)
+import Text.ParserCombinators.ReadP (char, skipSpaces)
+import Text.ParserCombinators.ReadPrec (lift)
+import Data.Char (isSpace)
 import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
@@ -46,6 +51,12 @@ primesBounded m = 2 : filterPrimes [3, 5..m]
 
 isCoprime :: Integral a => a -> a -> Bool
 isCoprime a b = gcd a b == 1
+
+continuedFrac :: (RealFrac a, Integral b) => a -> [b]
+continuedFrac x
+  | deci == 0 = [int]
+  | otherwise = int : continuedFrac (recip deci)
+  where (int, deci) = properFraction $ toRational x
 
 pascalsTriangle :: Integral a => [[a]]
 pascalsTriangle = generate $ repeat 1
@@ -133,5 +144,10 @@ instance (Integral t, Show t) => Show (Rationa t) where
     | b == 1 = show a
     | otherwise = show a ++ " / " ++ show b
 
--- TODO
--- instance (Integral t, Read t) => Read (Rationa t) where
+instance (Integral t, Read t) => Read (Rationa t) where
+  readPrec = do
+    num <- readPrec
+    lift skipSpaces
+    lift $ char '/'
+    den <- readPrec
+    return $ num % den

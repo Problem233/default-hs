@@ -14,7 +14,7 @@ module Math (
 
 import Text.Read (readPrec)
 import Text.ParserCombinators.ReadP (char, skipSpaces)
-import Text.ParserCombinators.ReadPrec (lift)
+import Text.ParserCombinators.ReadPrec (lift, (+++))
 import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
@@ -147,6 +147,5 @@ instance (Integral t, Read t) => Read (Rationa t) where
   readPrec = do
     num <- readPrec
     lift skipSpaces
-    lift $ char '/'
-    den <- readPrec
+    den <- (lift (char '/') >> readPrec) +++ return 1
     return $ num % den

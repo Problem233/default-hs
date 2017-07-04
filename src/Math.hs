@@ -13,8 +13,9 @@ module Math (
   Rationa, (%)) where
 
 import Text.Read (readPrec)
-import Text.ParserCombinators.ReadP (char, skipSpaces)
+import Text.ParserCombinators.ReadP (satisfy, char, many1, skipSpaces)
 import Text.ParserCombinators.ReadPrec (lift, (+++))
+import Data.Char (isDigit)
 import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
@@ -144,8 +145,18 @@ instance (Integral t, Show t) => Show (Rationa t) where
     | otherwise = show a ++ " / " ++ show b
 
 instance (Integral t, Read t) => Read (Rationa t) where
-  readPrec = do
-    num <- readPrec
-    lift skipSpaces
-    den <- (lift (char '/') >> readPrec) +++ return 1
-    return $ num % den
+  readPrec = fraction +++ decimal
+    where digit = satisfy isDigit
+          decimal = do
+            lift skipSpaces
+            i <- lift $ many1 digit
+            lift $ char '.'
+            d <- lift $ many1 digit
+            lift skipSpaces
+            return $ read (i ++ d) % (10 ^ length d)
+          fraction = do
+            num <- readPrec
+            lift skipSpaces
+            den <- (lift (char '/') >> readPrec) +++ return 1
+            lift skipSpaces
+            return $ num % den

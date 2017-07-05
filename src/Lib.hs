@@ -5,7 +5,7 @@ module Lib (
   unicode,
   while,
   rotate,
-  (<%>)) where
+  (<%>), (<++>)) where
 
 import Data.List (partition)
 
@@ -50,5 +50,10 @@ rotate (fl : rl) = rotateRec rl [fl]
             rotateRec lt (lh : removeNull (map tail r))
           where removeNull = filter (not . null)
 
+infixl 4 <%>
 (<%>) :: Functor f => f a -> (a -> b) -> f b
 (<%>) = flip fmap
+
+infixl 4 <++>
+(<++>) :: Applicative f => f [a] -> f [a] -> f [a]
+f <++> g = (++) <$> f <*> g

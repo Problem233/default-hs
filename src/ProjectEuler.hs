@@ -11,7 +11,9 @@ import Data.List (
   nub, -- Used by answer79_1
   sortBy) -- Used by answer79_1, answer56_1
 import Data.Ord (comparing) -- Used by answer14_1
-import Data.Array (listArray, (!), assocs) -- Used by answer14_1
+import Data.Array (
+  listArray, (!), -- Used by answer14_1, answer76_1
+  assocs) -- Used by answer14_1
 import Lib (
   rotate, -- Used by answer11_1
   count) -- Used by answer55_1

@@ -61,8 +61,7 @@ continuedFrac x
 pascalsTriangle :: Integral a => [[a]]
 pascalsTriangle = generate $ repeat 1
   where generate xs = xs : generate (generateRaw 1 $ tail xs)
-        generateRaw l (u : r) = let n = l + u
-                                 in l : generateRaw n r
+        generateRaw l (u : r) = l : generateRaw (l + u) r
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n

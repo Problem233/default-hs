@@ -7,11 +7,13 @@ module Math (
   isCoprime,
   continuedFrac,
   pascalsTriangle,
+  circle,
   pythagoreanTriple,
   pythagoreanTriples,
   searchPythagoreanTriple,
   Rationa, (%)) where
 
+import Control.Monad (guard)
 import Text.Read (readPrec)
 import Text.ParserCombinators.ReadP (satisfy, char, many1, skipSpaces)
 import Text.ParserCombinators.ReadPrec (lift, (+++))
@@ -62,6 +64,16 @@ pascalsTriangle :: Integral a => [[a]]
 pascalsTriangle = generate $ repeat 1
   where generate xs = xs : generate (generateRaw 1 $ tail xs)
         generateRaw l (u : r) = l : generateRaw (l + u) r
+
+circle :: (Integral t1, Fractional t, Ord t, Enum t)
+       => t1 -> (t, t) -> t -> [(t, t)]
+circle p (a, b) r = do
+  x <- [a - r, a - r + pre..a + r]
+  y <- [b - r, b - r + pre..b + r]
+  guard $ sqr (x - a) + sqr (y - b) <= sqr r
+  return (x, y)
+  where sqr x = x * x
+        pre = recip $ 2 ^ p
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n

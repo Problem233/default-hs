@@ -44,10 +44,10 @@ while env p f
 rotate :: [[a]] -> [[a]]
 rotate (fl : rl) = rotateRec rl [fl]
   where rotateRec _ [] = []
-        rotateRec l r  = map head r : case l of
-          [] -> rotateRec [] (removeNull $ map tail r)
-          (lh : lt) ->
-            rotateRec lt (lh : removeNull (map tail r))
+        rotateRec l r  =
+          map head r : case l of
+            [] -> rotateRec [] (removeNull $ map tail r)
+            (lh : lt) -> rotateRec lt (lh : removeNull (map tail r))
           where removeNull = filter (not . null)
 
 infixl 4 <%>

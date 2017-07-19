@@ -1,4 +1,5 @@
 module Math (
+  fibs, fib,
   fact,
   factors,
   numOfFactors,
@@ -21,6 +22,13 @@ import Data.Char (isDigit)
 import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
+
+fibs :: Integral a => [a]
+fibs = genFibs 0 1
+  where genFibs a b = b : genFibs b (a + b)
+
+fib :: Integral a => Int -> a
+fib = (fibs !!) . (+ 1)
 
 fact :: Integral a => a -> a
 fact 2 = 2

@@ -3,7 +3,7 @@
   "isShellCommand": true,
   "command": "%USERPROFILE%\\Software\\stack.bat",
   "args": ["exec", "--", "bash", "-c"],
-  "showOutput": "always",
+  "showOutput": "silent",
   "suppressTaskName": true,
   "tasks": [
     {

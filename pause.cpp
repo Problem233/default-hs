@@ -40,6 +40,12 @@ void pause4() {
   getch();
 }
 
+// call system command
+
+void pause5() {
+  system("pause");
+}
+
 // main
 
 int main() {
@@ -47,5 +53,6 @@ int main() {
   pause2();
   pause3();
   pause4();
+  pause5();
   return 0;
 }

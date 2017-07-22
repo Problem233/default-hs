@@ -8,11 +8,11 @@ using namespace std;
 // text
 
 void enter() {
-  cout << "press enter to continue.." << endl;
+  cout << "press enter to continue..";
 }
 
 void any_key() {
-  cout << "press any key to continue.." << endl;
+  cout << "press any key to continue..";
 }
 
 // use std only

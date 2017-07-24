@@ -2,18 +2,17 @@
   "version": "0.1.0",
   "isShellCommand": true,
   "command": "%USERPROFILE%\\Software\\stack.bat",
-  "args": ["exec", "--", "bash", "-c"],
+  "args": ["exec", "--", "bash", "./build", "${file}"],
   "showOutput": "silent",
   "suppressTaskName": true,
   "tasks": [
     {
       "isBuildCommand": true,
-      "taskName": "compile with g++",
-      "args": ["SOURCE=$(cygpath \\\"${file}\\\") && FILENAME=$(basename -s .cpp $SOURCE) && g++ -std=c++14 -I . -o ./exe/$FILENAME.exe $SOURCE"]
+      "taskName": "compile with g++"
     },
     {
       "taskName": "release with g++",
-      "args": ["SOURCE=$(cygpath \\\"${file}\\\") && FILENAME=$(basename -s .cpp $SOURCE) && g++ -std=c++14 -O3 -I . -o ./exe/$FILENAME.exe $SOURCE"]
+      "args": ["--release"]
     }
   ]
 }

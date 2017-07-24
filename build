@@ -1,0 +1,7 @@
+#!/bin/bash
+SOURCE=$(cygpath $1)
+FILENAME=$(basename -s .cpp $SOURCE)
+if [ "$2" == "--release" ]
+then g++ -std=c++14 -o ./exe/$FILENAME.exe $SOURCE
+else g++ -std=c++14 -O3 -o ./exe/$FILENAME.exe $SOURCE
+fi

@@ -1,7 +1,7 @@
-#include <./lib/hyper_cal/calc.h>
-# include <cstring>
-# include <cstdio>
-# include <cmath>
+#include "./lib/hyper_cal/calc.h"
+#include <cstring>
+#include <cstdio>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <cstdlib>

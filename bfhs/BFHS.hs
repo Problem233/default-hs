@@ -1,10 +1,7 @@
 import System.Environment (getArgs)
-import System.Exit (exitSuccess)
 import System.IO (openFile, hGetContents,
                   hFlush, stdout,
                   IOMode (ReadMode), Handle)
-import Control.Monad (forM_)
-import Data.List (find)
 import Data.Char (ord, chr)
 
 main :: IO ()
@@ -22,77 +19,18 @@ interp file = do
 
 repl :: IO ()
 repl = do
-  putStrLn "Welcome to BFHS! :? for help."
+  putStrLn "Welcome to BFHS! ^C to exit!"
   replLoop [[]] emptyMem
   where replLoop cs m = do
           putStr "bf> "
           flush
           nc <- getLine
           case nc of
-            []              -> replLoop cs m
-            (':' : cmd) ->
-              let (fn : fa) = words cmd
-              in execFunc fn fa m >>= replLoop cs
-            _               -> do
+            [] -> replLoop cs m
+            _ -> do
               let cs2 = map (++ nc) cs
               (ncs, nm) <- eval cs2 m
               replLoop ncs nm
-
-data Func = Func {
-              name :: String,
-              helpText :: String,
-              exec :: [String] -> Mem -> IO Mem
-            }
-
-func :: String -> Maybe Func
-func n = find ((== n) . name) functions
-
-execFunc :: String -> [String] -> Mem -> IO Mem
-execFunc n args m = case func n of
-  Just (Func _ _ f) -> f args m
-  Nothing           -> do
-    putStrLn $ "unknown function ':" ++ n ++ "'."
-    putStrLn "use :? for help."
-    return m
-
-functions :: [Func]
-functions =
-  [
-    Func {
-      name = "?",
-      helpText =
-        ":? get help.\n" ++
-        ":? <command> get helo for given command.",
-      exec = \args m -> case args of
-        []      -> forM_ functions (putStrLn . helpText) >>
-                   return m
-        (n : _) -> case func $ tail n of
-          Just (Func _ h _) -> putStrLn h >> return m
-          Nothing -> do
-            putStrLn $ "unknown function '" ++ n ++ "'."
-            return m
-    },
-    Func {
-      name = "q",
-      helpText = ":q exit repl.",
-      exec = \_ _ -> putStrLn "bye." >> exitSuccess
-    },
-    Func {
-      name = "m",
-      helpText =
-        ":m show the memory value at the current pointer" ++
-        " address",
-      exec = \_ m ->
-        let v = query m
-            n = show $ ord v
-         in putStrLn (n ++ " " ++ show v) >> return m
-    },
-    Func {
-      name = "r",
-      helpText = ":r reset the memory and the pointer.",
-      exec = \_ _ -> return emptyMem
-    }
-  ]
 
 data Mem = Ptr Leaf Char Leaf
 data Leaf = Leaf Char Leaf | End

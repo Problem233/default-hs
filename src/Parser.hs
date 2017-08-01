@@ -1,3 +1,5 @@
+{-# LANGUAGE ApplicativeDo #-}
+
 module Parser (
   Parser (..),
   item, satisfy, oneOf, noneOf,

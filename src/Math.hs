@@ -19,16 +19,15 @@ import Text.Read (readPrec)
 import Text.ParserCombinators.ReadP (satisfy, char, many1, skipSpaces)
 import Text.ParserCombinators.ReadPrec (lift, (+++))
 import Data.Char (isDigit)
-import Data.List (sort)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
 
 fibs :: Integral a => [a]
-fibs = genFibs 0 1
+fibs = genFibs 1 1
   where genFibs a b = b : genFibs b (a + b)
 
 fib :: Integral a => Int -> a
-fib = (fibs !!) . (+ 1)
+fib = (fibs !!)
 
 fact :: Integral a => a -> a
 fact 2 = 2
@@ -85,37 +84,31 @@ circle p (a, b) r = do
 
 pythagoreanTriple :: Integral a => a -> a -> (a, a, a)
 pythagoreanTriple m n
-  | m <= 0 || n <= 0 = undefined
-  | m == n = undefined
-  | otherwise =
-      sortT3 (abs (m ^ 2 - n ^ 2), 2 * m * n, m ^ 2 + n ^ 2)
-  where sortT3 (a, b, c) =
-          let [a', b', c'] = sort [a, b, c]
-          in (a', b', c')
+  | m < n = pythagoreanTriple n m
+  | m > n && n > 0 = let n2 = 2 * n in
+    if m <= n2 then (m * m - n * n, n2 * m, m * m + n * n)
+               else (n2 * m, m * m - n * n, m * m + n * n)
 
 pythagoreanTriples :: Integral a => [[(a, a, a)]]
 pythagoreanTriples = pythagoreanTriples2D 1
   where pythagoreanTriples1D m n
           | isCoprime m n =
-              pythagoreanTriple m n :
-              pythagoreanTriples1D m (n + 2)
+            pythagoreanTriple m n : pythagoreanTriples1D m (n + 2)
           | otherwise = pythagoreanTriples1D m (n + 2)
         pythagoreanTriples2D m =
-          pythagoreanTriples1D m (m + 1) :
-          pythagoreanTriples2D (m + 1)
+          pythagoreanTriples1D m (m + 1) : pythagoreanTriples2D (m + 1)
 
 searchPythagoreanTriple :: Integral a => a -> [(a, a, a)]
 searchPythagoreanTriple x =
   concatMap (
     concatMap (ti x) .
     filter (\(a, b, c) ->
-      x `rem` a == 0 || x `rem` b == 0 || x `rem` c == 0) .
+      x `mod` a == 0 || x `mod` b == 0 || x `mod` c == 0) .
     takeWhile (\(n, _, _) -> n <= x)) $
   takeWhile (\((n, _, _) : _) -> n <= x) pythagoreanTriples
-  where ti x (a, b, c) =
-          map (\n -> let m = x `quot` n
-                      in (a * m, b * m, c * m)) $
-          filter ((== 0) . (x `rem`)) [a, b, c]
+  where ti x (a, b, c) = map (\n -> let m = x `div` n
+                                     in (a * m, b * m, c * m)) $
+                         filter ((== 0) . (x `mod`)) [a, b, c]
 
 data Rationa t = Rationa t t deriving Eq
 

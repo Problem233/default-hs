@@ -1,7 +1,8 @@
 {-# LANGUAGE RankNTypes, TypeSynonymInstances, FlexibleInstances #-}
 module L2 (
   Bool, true, false, (&&), (||), not, xor, cond, pbool, bool,
-  Nat, zero, succ, pred, inf, plus, minus, mult, exp, nat, int) where
+  Nat, zero, succ, pred, inf, plus, minus, mult, exp,
+  isZero, leq, eq, nat, int) where
 
 import Prelude hiding (
   Bool (..), (&&), (||), not,
@@ -72,6 +73,12 @@ exp x = x
 
 isZero :: Nat -> Bool
 isZero n = n (const false) true
+
+leq :: Nat -> Nat -> Bool
+leq m n = isZero $ m `minus` n
+
+eq :: Nat -> Nat -> Bool
+eq m n = (m `leq` n) && (n `leq` m)
 
 nat :: Integer -> Nat
 nat 0 _ z = z

@@ -19,6 +19,9 @@ library
                      , L2
                      , Dependent
                      , Math
+                     , Math.Nat
+                     , Math.Rationa
+                     , ContFrac
                      , Parser
                      , ProjectEuler
                      , CodeWars

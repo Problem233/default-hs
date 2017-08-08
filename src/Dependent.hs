@@ -1,6 +1,5 @@
 {-# LANGUAGE TypeInType, GADTs, TypeOperators,
              RankNTypes, ExplicitNamespaces  #-}
-
 module Dependent (
   Equal (..), type (==)) where
 

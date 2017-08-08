@@ -57,11 +57,11 @@ zipSame = zipWithSame (,)
 zip :: Vect n a -> Vect m b -> Vect (Min n m) (a, b)
 zip = zipWith (,)
 
-append :: Vect n a -> Vect m a -> Vect (n @+ m) a
+append :: Vect n a -> Vect m a -> Vect (n :+ m) a
 append Nil ys = ys
 append (x :- xs) ys = x :- append xs ys
 
-concat :: Vect n (Vect m a) -> Vect (n @* m) a
+concat :: Vect n (Vect m a) -> Vect (n :* m) a
 concat Nil = Nil
 concat (x :- xs) = append x $ concat xs
 

@@ -22,6 +22,7 @@ library
                      , Data.Nat
                      , Data.Fin
                      , Data.Vect
+                     , Data.Singleton.SNat
                      , Math.Rationa
                      , ContFrac
                      , Parser

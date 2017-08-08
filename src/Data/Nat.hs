@@ -1,20 +1,22 @@
 {-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, UndecidableInstances #-}
-module Data.Nat (Nat (..), type (@+), type (@*), Min) where
+module Data.Nat (Nat (..), type (:+), type (:*), Min) where
+          -- here is a hlint bug ↑
+          -- ignore it
 
 import Text.Read (readPrec)
 import qualified Data.Ratio as Ratio ((%))
 
 data Nat = Z | S Nat deriving Eq
 
-infixl 6 @+
-type family (x :: Nat) @+ (y :: Nat) :: Nat
-type instance 'Z @+ y = y
-type instance 'S x @+ y = 'S (x @+ y)
+infixl 6 :+
+type family (x :: Nat) :+ (y :: Nat) :: Nat
+type instance 'Z :+ y = y
+type instance 'S x :+ y = 'S (x :+ y)
 
-infixl 7 @*
-type family (x :: Nat) @* (y :: Nat) :: Nat
-type instance 'Z @* _ = 'Z
-type instance 'S x @* y = y @+ x @* y
+infixl 7 :*
+type family (x :: Nat) :* (y :: Nat) :: Nat
+type instance 'Z :* _ = 'Z
+type instance 'S x :* y = y :+ x :* y
 
 type family Min (x :: Nat) (y :: Nat) :: Nat
 type instance Min 'Z y = 'Z

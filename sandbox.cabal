@@ -20,6 +20,7 @@ library
                      , Dependent
                      , Math
                      , Math.Nat
+                     , Math.Fin
                      , Math.Rationa
                      , ContFrac
                      , Parser

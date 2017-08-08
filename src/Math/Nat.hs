@@ -1,9 +1,25 @@
-module Math.Nat (Nat (..)) where
+{-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, UndecidableInstances #-}
+module Math.Nat (Nat (..), type (@+), type (@*), Min) where
 
 import Text.Read (readPrec)
 import qualified Data.Ratio as Ratio ((%))
 
 data Nat = Z | S Nat deriving Eq
+
+infixl 6 @+
+type family (x :: Nat) @+ (y :: Nat) :: Nat
+type instance 'Z @+ y = y
+type instance 'S x @+ y = 'S (x @+ y)
+
+infixl 7 @*
+type family (x :: Nat) @* (y :: Nat) :: Nat
+type instance 'Z @* _ = 'Z
+type instance 'S x @* y = y @+ x @* y
+
+type family Min (x :: Nat) (y :: Nat) :: Nat
+type instance Min 'Z y = 'Z
+type instance Min x 'Z = 'Z
+type instance Min ('S x) ('S y) = 'S (Min x y)
 
 instance Enum Nat where
   toEnum = fromInteger . fromIntegral

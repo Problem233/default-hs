@@ -19,8 +19,9 @@ library
                      , L2
                      , Dependent
                      , Math
-                     , Math.Nat
-                     , Math.Fin
+                     , Data.Nat
+                     , Data.Fin
+                     , Data.Vect
                      , Math.Rationa
                      , ContFrac
                      , Parser

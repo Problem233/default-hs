@@ -10,7 +10,7 @@ import Prelude hiding (
   head, tail, last, init,
   zipWith, zip, concat)
 import Data.Kind (Type)
-import Math.Nat
+import Data.Nat
 
 data Vect :: Nat -> Type -> Type where
   Nil :: Vect 'Z a

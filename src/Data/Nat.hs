@@ -1,5 +1,5 @@
 {-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, UndecidableInstances #-}
-module Math.Nat (Nat (..), type (@+), type (@*), Min) where
+module Data.Nat (Nat (..), type (@+), type (@*), Min) where
 
 import Text.Read (readPrec)
 import qualified Data.Ratio as Ratio ((%))

@@ -1,8 +1,9 @@
 {-# LANGUAGE DataKinds, GADTs, TypeInType #-}
-module Math.Fin () where
+module Data.Fin (Fin (..)) where
 
 import Data.Kind (Type)
-import Math.Nat
+import Data.Nat
 
 data Fin :: Nat -> Type where
-  
+  FZ :: Fin ('S k)
+  FS :: Fin k -> Fin ('S k)

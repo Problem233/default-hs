@@ -39,8 +39,14 @@ instance Real Nat where
   toRational x = toInteger x Ratio.% 1
 
 instance Integral Nat where
-  -- TODO
-  quotRem = undefined
+  x `quotRem` y @ (S _) = loop x
+    where x `minus` Z = Left x
+          Z `minus` y = Right y
+          S x `minus` S y = x `minus` y
+          loop x = case x `minus` y of
+            Left Z -> (Z, Z)
+            Left x' -> let (a, b) = loop x' in (a + 1, b)
+            Right r -> (Z, y - r)
   toInteger Z = 0
   toInteger (S x) = 1 + toInteger x
 

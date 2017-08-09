@@ -1,4 +1,4 @@
-module Math.Rationa (Rationa, (%)) where
+module Math.Rationa (Rationa (num, den), (%)) where
 
 import Text.Read (readPrec)
 import Text.ParserCombinators.ReadP (satisfy, char, many1, skipSpaces)
@@ -7,7 +7,7 @@ import Data.Char (isDigit)
 import Data.Ratio (numerator, denominator)
 import qualified Data.Ratio as Ratio ((%))
 
-data Rationa t = Rationa t t deriving Eq
+data Rationa t = Rationa { num :: t, den :: t } deriving Eq
 
 infixl 7 %
 (%) :: Integral t => t -> t -> Rationa t

@@ -24,7 +24,6 @@ library
                      , Data.Vect
                      , Data.Singleton.SNat
                      , Math.Rationa
-                     , ContFrac
                      , Parser
                      , ProjectEuler
                      , CodeWars

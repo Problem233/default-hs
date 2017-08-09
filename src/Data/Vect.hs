@@ -1,16 +1,18 @@
 {-# LANGUAGE GADTs, TypeInType, TypeOperators, DataKinds,
              StandaloneDeriving, UndecidableInstances #-}
 module Data.Vect (
-  Vect (..), toList, uncons,
+  Vect (..), toList, uncons, index, (!!),
   head,tail, last, init,
   zipWithSame, zipWith, zipSame, zip,
   append, concat) where
 
 import Prelude hiding (
+  (!!),
   head, tail, last, init,
   zipWith, zip, concat)
 import Data.Kind (Type)
 import Data.Nat
+import Data.Fin
 
 data Vect :: Nat -> Type -> Type where
   Nil :: Vect 'Z a
@@ -27,6 +29,13 @@ toList (x :- xs) = x : toList xs
 
 uncons :: Vect ('S n) a -> (a, Vect n a)
 uncons (x :- xs) = (x, xs)
+
+index :: Fin n -> Vect n a -> a
+index FZ (x :- _) = x
+index (FS n) (_ :- xs) = index n xs
+
+(!!) :: Fin n -> Vect n a -> a
+(!!) = index
 
 head :: Vect ('S n) a -> a
 head (x :- _) = x

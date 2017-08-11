@@ -23,7 +23,7 @@ false _ y = y
 x && y = x y x
 
 (||) :: Bool -> Bool -> Bool
-x || y = x y y
+x || y = x x y
 
 not :: Bool -> Bool
 not x a b = x b a

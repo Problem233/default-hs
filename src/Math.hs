@@ -11,7 +11,8 @@ module Math (
   circle,
   pythagoreanTriple,
   pythagoreanTriples,
-  searchPythagoreanTriple) where
+  searchPythagoreanTriple,
+  lagrangePolynomial) where
 
 import Control.Monad (guard)
 
@@ -102,3 +103,12 @@ searchPythagoreanTriple x =
   where ti x (a, b, c) = map (\n -> let m = x `div` n
                                      in (a * m, b * m, c * m)) $
                          filter ((== 0) . (x `mod`)) [a, b, c]
+
+lagrangePolynomial :: (Fractional a, Eq a) => [(a, a)] -> a -> a
+lagrangePolynomial ps x = sum $ do
+  (x_j, y_j) <- ps
+  let basis x = product $ do
+      (x_i, _) <- ps
+      guard $ x_i /= x_j
+      return $ (x - x_i) / (x_j - x_i)
+  return $ y_j * basis x

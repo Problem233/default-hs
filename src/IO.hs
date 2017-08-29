@@ -13,9 +13,7 @@ readFileWithEncoding :: FilePath -> TextEncoding -> IO String
 readFileWithEncoding file enc = do
   handle <- openFile file ReadMode
   hSetEncoding handle enc
-  contents <- hGetContents handle
-  hClose handle
-  return contents
+  hGetContents handle
 
 writeFileWithEncoding :: FilePath -> TextEncoding -> String -> IO ()
 writeFileWithEncoding file enc str = do

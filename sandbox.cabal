@@ -16,14 +16,16 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Lib
-                     , L2
-                     , Dependent
                      , Math
+                     , Math.Rationa
+                     , List
+                     , IO
+                     , Dependent
+                     , L2
                      , Data.Nat
                      , Data.Fin
                      , Data.Vect
                      , Data.Singleton.SNat
-                     , Math.Rationa
                      , Parser
                      , ProjectEuler
                      , CodeWars

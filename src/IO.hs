@@ -17,7 +17,7 @@ readFileWithEncoding file enc = do
 
 writeFileWithEncoding :: FilePath -> TextEncoding -> String -> IO ()
 writeFileWithEncoding file enc str = do
-  handle <- openFile file ReadMode
+  handle <- openFile file WriteMode
   hSetEncoding handle enc
   hPutStr handle str
   hClose handle

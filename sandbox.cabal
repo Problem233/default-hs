@@ -18,6 +18,7 @@ library
   exposed-modules:     Lib
                      , Math
                      , Math.Rationa
+                     , Chemistry
                      , List
                      , IO
                      , Dependent

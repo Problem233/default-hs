@@ -2,8 +2,8 @@ module List (split, splitOn, splitOnString) where
 
 split :: (a -> Bool) -> [a] -> [[a]]
 split p xs = case break p xs of
-              (l, _ : r) -> l : split p r
-              (l, []) -> [l]
+               (l, _ : r) -> l : split p r
+               (l, []) -> [l]
 
 splitOn :: Eq a => a -> [a] -> [[a]]
 splitOn x = split (== x)

@@ -1,11 +1,10 @@
 module Math (
   fibs, fib,
   fact,
-  factors,
-  numOfFactors,
-  primes,
-  primesBounded,
-  isCoprime,
+  factors, numOfFactors,
+  primes, primesBounded,
+  isCoprime, gcds,
+  reduceFrac,
   continuedFrac,
   pascalsTriangle,
   circle,
@@ -54,6 +53,13 @@ primesBounded m = 2 : filterPrimes [3, 5..m]
 
 isCoprime :: Integral a => a -> a -> Bool
 isCoprime a b = gcd a b == 1
+
+gcds :: Integral a => [a] -> a
+gcds = foldl1 gcd
+
+reduceFrac :: Integral a => a -> a -> (a, a)
+reduceFrac x y = let gcdxy = gcd x y
+                  in (x `div` gcdxy, y `div` gcdxy)
 
 continuedFrac :: (RealFrac a, Integral b) => a -> [b]
 continuedFrac x

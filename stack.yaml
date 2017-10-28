@@ -1,0 +1,12 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- .
+extra-deps:
+- csound-expression-5.2.2
+- csound-expression-dynamic-0.3.2
+- csound-expression-opcodes-0.0.3.2
+- csound-expression-typed-0.2.0.2
+- temporal-media-0.6.1
+- data-fix-cse-0.0.2
+resolver: lts-9.10

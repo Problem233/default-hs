@@ -2,4 +2,5 @@ package sandbox
 
 main = Sandbox
 modules = Sandbox
+        , Sandbox.Math
         , Sandbox.Tuple

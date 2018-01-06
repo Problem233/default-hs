@@ -1,9 +1,8 @@
 module Sandbox.Tuple
 
+%access public export
 %default total
-%access export
 
-public export
 data Tuple : {default Type t : _} -> (ts : List t) -> Type where
   Nil  : Tuple []
   (::) : a -> Tuple ts -> Tuple (a :: ts)

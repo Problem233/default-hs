@@ -1,5 +1,6 @@
 ### Idris ###
 *.ibc
+*.o
 
 ### Windows ###
 # Windows thumbnail cache files

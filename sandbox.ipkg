@@ -1,0 +1,5 @@
+package sandbox
+
+main = Sandbox
+modules = Sandbox
+        , Sandbox.Tuple

@@ -1,2 +1,3 @@
 #!/bin/bash
-idris --ibcsubdir target --repl sandbox.ipkg
+#idris --ibcsubdir target --repl sandbox.ipkg
+idris --repl sandbox.ipkg

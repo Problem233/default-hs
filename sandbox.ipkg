@@ -2,5 +2,6 @@ package sandbox
 
 main = Sandbox
 modules = Sandbox
+        , Sandbox.Lib
         , Sandbox.Math
-        , Sandbox.Tuple
+        , Sandbox.HList

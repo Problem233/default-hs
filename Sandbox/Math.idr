@@ -1,6 +1,6 @@
 module Sandbox.Math
 
-import Sandbox
+import Sandbox.Lib
 
 %access public export
 %default total

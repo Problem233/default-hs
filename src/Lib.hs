@@ -6,8 +6,7 @@ module Lib (
 import Csound.Base
 
 renderSnd :: RenderCsd a => String -> a -> IO ()
-renderSnd = writeSndBy opt
-  where opt = setRates 192000 64 <>
+renderSnd = writeSndBy $ setRates 48000 64 <>
               def {
                 csdFlags = def {
                   audioFileOutput = def {
@@ -17,4 +16,4 @@ renderSnd = writeSndBy opt
               }
 
 wind :: SE Sig
-wind = fmap (osc . (\x -> 220 + 88 * (osc x + x))) pink
+wind = osc . (\x -> 220 + 88 * (osc x + x)) <$> pink

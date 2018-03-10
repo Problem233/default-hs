@@ -7,7 +7,6 @@ data HList : {default Type t : _} -> (ts : List t) -> Type where
   Nil  : HList []
   (::) : a -> HList ts -> HList (a :: ts)
 
-
 length : HList _ -> Nat
 length Nil       = Z
 length (_ :: xs) = S (length xs)

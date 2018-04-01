@@ -5,3 +5,4 @@ modules = Sandbox
         , Sandbox.Lib
         , Sandbox.Math
         , Sandbox.HList
+        , Sandbox.Format

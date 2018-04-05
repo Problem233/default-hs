@@ -42,11 +42,11 @@ formatHList fmtStr = formatHList' (toFmt fmtStr)
         formatHList' (FLiteral c :: rFmt) r = c `strCons` formatHList' rFmt r
         formatHList' [] [] = ""
 
-format : (fmtStr : String) -> uncurryHListTy (formatTy $ toFmt fmtStr) String
-format fmtStr = uncurryHList $ formatHList fmtStr
+format : (fmtStr : String) -> curryHListTy (formatTy $ toFmt fmtStr) String
+format fmtStr = curryHList $ formatHList fmtStr
 
 printfHList : (fmtStr : String) -> HList (formatTy $ toFmt fmtStr) -> IO ()
 printfHList fmtStr args = putStr $ formatHList fmtStr args
 
-printf : (fmtStr : String) -> uncurryHListTy (formatTy $ toFmt fmtStr) (IO ())
-printf fmtStr = uncurryHList $ printfHList fmtStr
+printf : (fmtStr : String) -> curryHListTy (formatTy $ toFmt fmtStr) (IO ())
+printf fmtStr = curryHList $ printfHList fmtStr

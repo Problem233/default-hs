@@ -16,10 +16,10 @@ filterM _ [] = pure []
 powerset : List a -> List (List a)
 powerset = filterM $ const [True, False]
 
-uncurryHListTy : List Type -> Type -> Type
-uncurryHListTy (t :: r) u = t -> uncurryHListTy r u
-uncurryHListTy [] u = u
+curryHListTy : List Type -> Type -> Type
+curryHListTy (t :: r) u = t -> curryHListTy r u
+curryHListTy [] u = u
 
-uncurryHList : (HList ts -> u) -> uncurryHListTy ts u
-uncurryHList {ts = _ :: _} f = \x => uncurryHList (\l => f (x :: l))
-uncurryHList {ts = []} f = f []
+curryHList : (HList ts -> u) -> curryHListTy ts u
+curryHList {ts = _ :: _} f = \x => curryHList (\l => f (x :: l))
+curryHList {ts = []} f = f []

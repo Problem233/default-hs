@@ -50,7 +50,3 @@ replicate (S k) x = x :: replicate k x
 fromList : (l : List a) -> HList (replicate (length l) a)
 fromList []        = Nil
 fromList (x :: xs) = x :: fromList xs
-
-namespace explicit
-  HList : Type
-  HList = List (t : _ ** t)

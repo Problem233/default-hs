@@ -5,6 +5,24 @@ import Sandbox.HList
 %access public export
 %default total
 
+Empty : List a -> Type
+Empty = Not . NonEmpty
+
+infixl 9 /\
+(/\) : Type -> Type -> Type
+(/\) = Pair
+
+infixl 8 \/
+(\/) : Type -> Type -> Type
+(\/) = Either
+
+iff : Type -> Type -> Type
+iff a b = (a -> b) /\ (b -> a)
+
+infixl 9 <->
+(<->) : Type -> Type -> Type
+(<->) = iff
+
 partial
 filter : (a -> Bool) -> Stream a -> Stream a
 filter p (x :: xs) = if p x then x :: filter p xs else filter p xs

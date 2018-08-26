@@ -6,5 +6,6 @@ modules = Sandbox
         , Sandbox.Math
         , Sandbox.HList
         , Sandbox.Format
+        , Sandbox.LVect
         , Sandbox.Queue
         , Sandbox.IdMonad

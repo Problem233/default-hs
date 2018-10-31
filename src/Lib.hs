@@ -5,8 +5,9 @@ module Lib (
   renderSnd,
   myWind,
   spinFull, spin,
-  tempo,
   Note, Score,
+  tempo,
+  shiftPitch,
   note, notes,
   playScore, guitarPlay,
   -- * Scores
@@ -43,13 +44,19 @@ spin :: Sig -- ^ The amount of the sound saved in both left and right.
      -> (Sig, Sig)
 spin base f x = at (\x' -> base * x + (1 - base) * x') (spinFull f x)
 
+type Note = CsdNote D
+type Score = Sco Note
+
 -- | Sets the tempo of a score.
 -- Shouldn't be applied to a score twice.
 tempo :: D -> Score -> Score
 tempo t = str (60 / sig t)
 
-type Note = CsdNote D
-type Score = Sco Note
+-- | Shift the pitch of a score by semitone.
+-- eg.
+-- > shiftPitch 2 (note "4C") == note "4D"
+shiftPitch :: D -> Score -> Score
+shiftPitch x = fmap $ \(a, b) -> (a, b * semitone x)
 
 note :: String -> Score
 note s =
@@ -75,10 +82,9 @@ guitarPlay :: Score -> IO ()
 guitarPlay = playScore $ atSco guitar
 
 twinkle :: Score
-twinkle = tempo 100 $ mel [pA, pB, pA]
-  where
-    pA = notes "4C 4C | 4G 4G | 4A 4A | 4G~ - | 4F 4F | 4E 4E | 4D 4D | 4C~ - |"
-    pB = notes "4G 4G | 4F 4F | 4E 4E | 4D~ - | 4G 4G | 4F 4F | 4E 4E | 4D~ - |"
+twinkle = tempo 100 $ mel $ notes <$> [pA, pB, pA]
+  where pA = "4C 4C | 4G 4G | 4A 4A | 4G~ - | 4F 4F | 4E 4E | 4D 4D | 4C~ - |"
+        pB = "4G 4G | 4F 4F | 4E 4E | 4D~ - | 4G 4G | 4F 4F | 4E 4E | 4D~ - |"
 
 test :: Score
 test = tempo 100 $ notes
@@ -98,3 +104,10 @@ test3 = tempo 120 $ notes $ unwords [
   "[ 3A^ 3B^ ] 4C~ - 3B | 4C 4D 4C^ 4D [4.5] | 4F 4E~ 4D^ [3.5] | 4C~ - 0 0 |",
   "[ 4C^ 4D^ ] 4E~ - 4D^ 4E^~~~~ [6] | 4D 4E [2] | 4A 4G [ 4E^^ 4D^^ ] 4C^~~ |",
   "0 0 4C 3B | 3A^~~~~ 4C^ 4E | 4D 4C^ 3B^~~ - 4C | 3A~~~ - - - | 0 0 0 0 ||"]
+
+test4 :: Score
+test4 = shiftPitch (-5) $ tempo 160 $ mel $ notes <$> [pA, pB, pA, pC]
+  where
+    pA = "4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G | 4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G |"
+    pB = "5C^~~ 5C^~~ 5C | 4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G | 4F^~~ 4F^~~ 4E |"
+    pC = "5C^~~ 5C^~~ 5C | 4A^~~ 4A^~~ 4A | 5C^~~ 5C^~~ 5C | 5D^~~ 5D^~~ 5D |"

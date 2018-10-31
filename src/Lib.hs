@@ -1,17 +1,20 @@
 module Lib (
-  module ExportedModules,
+  -- * Re-exported modules
+  module ReExportedModules,
+  -- * Utils
   renderSnd,
   myWind,
   spinFull, spin,
   tempo,
   Note, Score,
   note, notes,
-  renderScore, guitarPlay,
+  playScore, guitarPlay,
+  -- * Scores
   twinkle) where
 
 import Data.Char (isDigit)
-import Csound.Base as ExportedModules hiding (tempo)
-import Csound.Patch as ExportedModules
+import Csound.Base as ReExportedModules hiding (tempo)
+import Csound.Patch as ReExportedModules
 
 renderSnd :: RenderCsd a => String -> a -> IO ()
 renderSnd = writeSndBy $ setRates 48000 64 <>
@@ -40,7 +43,7 @@ spin :: Sig -- ^ The amount of the sound saved in both left and right.
      -> (Sig, Sig)
 spin base f x = at (\x' -> base * x + (1 - base) * x') (spinFull f x)
 
--- | Sets the tempo of a score
+-- | Sets the tempo of a score.
 -- Shouldn't be applied to a score twice.
 tempo :: D -> Score -> Score
 tempo t = str (60 / sig t)
@@ -65,11 +68,11 @@ note s =
 notes :: String -> Score
 notes = mel . fmap note . filter (isDigit . head) . words
 
-renderScore :: (RenderCsd t, Sigs t) => (Score -> Sco (Mix t)) -> Score -> IO ()
-renderScore instr score = dac $ mix $ instr score
+playScore :: (RenderCsd t, Sigs t) => (Score -> Sco (Mix t)) -> Score -> IO ()
+playScore instr score = dac $ mix $ instr score
 
 guitarPlay :: Score -> IO ()
-guitarPlay = renderScore $ atSco guitar
+guitarPlay = playScore $ atSco guitar
 
 twinkle :: Score
 twinkle = tempo 100 $ mel [pA, pB, pA]

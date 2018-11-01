@@ -1,6 +1,7 @@
 ### CSound ###
 tmp.csd
 /*.wav
+/*.flac
 
 ### Haskell ###
 dist

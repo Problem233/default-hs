@@ -7,8 +7,8 @@ module Lib (
   spinFull, spin,
   Note, Score,
   tempo,
-  shiftPitch,
-  note, notes,
+  shiftPitch, amplify,
+  noteAmp, note, notes,
   playScore, guitarPlay,
   -- * Scores
   twinkle) where
@@ -58,16 +58,23 @@ tempo t = str (60 / sig t)
 shiftPitch :: D -> Score -> Score
 shiftPitch x = fmap $ \(a, b) -> (a, b * semitone x)
 
-note :: String -> Score
-note s =
+-- | Amplify a score.
+amplify :: D -> Score -> Score
+amplify x = fmap $ \(a, b) -> (a * x, b)
+
+noteAmp :: D -> String -> Score
+noteAmp amp s =
   case last s of
     '^' -> let (len, note') = span (== '^') $ reverse s
-            in str (1 / 2 ^ length len) $ note $ reverse note'
+            in str (1 / 2 ^ length len) $ noteAmp amp $ reverse note'
     '~' -> let (len, note') = span (== '~') $ reverse s
-            in str (sig $ int $ 1 + length len) $ note $ reverse note'
+            in str (sig $ int $ 1 + length len) $ noteAmp amp $ reverse note'
     _ -> mkNote s
   where mkNote "0" = rest 1
-        mkNote s = temp (0.5, cpsmidinn $ ntom $ text s)
+        mkNote s = temp (amp, cpsmidinn $ ntom $ text s)
+
+note :: String -> Score
+note = noteAmp 1
 
 -- TODO make it more friendly
 -- eg. (3A 3B)^ 4C - 0 |
@@ -91,7 +98,7 @@ test = tempo 100 $ notes
   "3A^ 3B^ 4C~~ - - | 3A^ 3B^ 4C~~ - - | 3B^ 4C^ 4D~~ - - | 4C^ 3B^ 3A~~ - - ||"
 
 -- | This melody has been used in my music homework.
--- TODO Needs to be rewrited after `notes` is reworked.
+-- TODO Needs to be rewritten after `notes` is reworked.
 test2 :: Score
 test2 = tempo 160 $ notes $ unwords [
   "4F 4C^ 4F 5C^ 0^ 4B~ 4A^~~~~ |",
@@ -111,3 +118,10 @@ test4 = shiftPitch (-5) $ tempo 160 $ mel $ notes <$> [pA, pB, pA, pC]
     pA = "4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G | 4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G |"
     pB = "5C^~~ 5C^~~ 5C | 4A^~~ 4A^~~ 4A | 4G^~~ 4G^~~ 4G | 4F^~~ 4F^~~ 4E |"
     pC = "5C^~~ 5C^~~ 5C | 4A^~~ 4A^~~ 4A | 5C^~~ 5C^~~ 5C | 5D^~~ 5D^~~ 5D |"
+
+test5 :: Score
+test5 = tempo 140 $ mel [
+  pA, notes "0^ 4E^", pB, notes "4G^ 4A^",
+  pB, notes "0^ 4A^", pA, notes "4D^ 4C^"]
+  where pA = mel [note "4C^", noteAmp 0.3 "4E^", loopBy 6 $ notes "0^ 4E^"]
+        pB = mel [note "4D^", noteAmp 0.3 "4F^", loopBy 6 $ notes "0^ 4F^"]

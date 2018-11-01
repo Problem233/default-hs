@@ -9,7 +9,7 @@ module Lib (
   tempo,
   shiftPitch, amplify,
   noteAmp, note, notes,
-  playScore, guitarPlay,
+  playWith,
   -- * Scores
   twinkle) where
 
@@ -82,19 +82,16 @@ note = noteAmp 1
 notes :: String -> Score
 notes = mel . fmap note . filter (isDigit . head) . words
 
-playScore :: (RenderCsd t, Sigs t) => (Score -> Sco (Mix t)) -> Score -> IO ()
-playScore instr score = dac $ mix $ instr score
-
-guitarPlay :: Score -> IO ()
-guitarPlay = playScore $ atSco guitar
+playWith :: (RenderCsd a, SigSpace a, Sigs a) => Patch a -> Score -> IO ()
+playWith instr = dac . mix . atSco instr
 
 twinkle :: Score
 twinkle = tempo 100 $ mel $ notes <$> [pA, pB, pA]
   where pA = "4C 4C | 4G 4G | 4A 4A | 4G~ - | 4F 4F | 4E 4E | 4D 4D | 4C~ - |"
         pB = "4G 4G | 4F 4F | 4E 4E | 4D~ - | 4G 4G | 4F 4F | 4E 4E | 4D~ - |"
 
-test :: Score
-test = tempo 100 $ notes
+test1 :: Score
+test1 = tempo 100 $ notes
   "3A^ 3B^ 4C~~ - - | 3A^ 3B^ 4C~~ - - | 3B^ 4C^ 4D~~ - - | 4C^ 3B^ 3A~~ - - ||"
 
 -- | This melody has been used in my music homework.
@@ -112,6 +109,10 @@ test3 = tempo 120 $ notes $ unwords [
   "[ 4C^ 4D^ ] 4E~ - 4D^ 4E^~~~~ [6] | 4D 4E [2] | 4A 4G [ 4E^^ 4D^^ ] 4C^~~ |",
   "0 0 4C 3B | 3A^~~~~ 4C^ 4E | 4D 4C^ 3B^~~ - 4C | 3A~~~ - - - | 0 0 0 0 ||"]
 
+sunriseAccordeon :: Patch Sig2
+sunriseAccordeon = accordeon' $ Accordeon 0.625 1 0.875 0.75
+
+-- suggested patches: noisyChoir, caveOvertonePad, sunriseAccordeon, bhumiLofi 80
 test4 :: Score
 test4 = shiftPitch (-5) $ tempo 160 $ mel $ notes <$> [pA, pB, pA, pC]
   where

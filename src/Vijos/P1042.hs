@@ -2,6 +2,9 @@ module Vijos.P1042 where
 
 import Control.Monad (forM_, join)
 
+-- https://vijos.org/p/1042
+-- Current status: TLE
+-- Giving up OJ
 main :: IO ()
 main = join $ getLine >>= return . map read . words >>= return . \[m, n] ->
          let p1 = primesBounded n

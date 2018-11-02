@@ -29,7 +29,7 @@ fact n = n * fact (n - 1)
 factors :: Integral a => a -> [a]
 factors n = test $ foldl (\r x -> x : n `div` x : r) []
               [x | x <- [1..truncate $ sqrt $ fromIntegral n], n `mod` x == 0]
-  where test (a : xs @ (b : _))
+  where test (a : xs@(b : _))
           | a == b = xs
         test xs = xs
 
@@ -46,7 +46,7 @@ primes = 2 : filterPrimes [3, 5..]
 
 primesBounded :: Integral a => a -> [a]
 primesBounded m = 2 : filterPrimes [3, 5..m]
-  where filterPrimes all @ (x : xs)
+  where filterPrimes all@(x : xs)
           | x > bound = all
           | otherwise = x : filterPrimes (filter (\n -> n `mod` x /= 0) xs)
         bound = floor $ sqrt $ fromIntegral m

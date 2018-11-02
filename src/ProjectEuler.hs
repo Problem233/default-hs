@@ -603,12 +603,12 @@ answer56_1 = maximum [sum $ map (toInteger . digitToInt) $ show (a ^ b)
 answer62_1 :: String
 answer62_1 = search 0 [] cubes
   where cubes = [(c, sort c) | x <- [1..], let c = show $ x * x * x]
-        search x l cs @ ((n, c) : r)
+        search x l cs@((n, c) : r)
           | length c > x = search (x + 1) [] cs
           | otherwise = let (nl, t, nr) = add c n l []
                          in if t == 5 then nr
                             else search x nl r
-        add c n ((tu @ (c', n', t)) : r) res
+        add c n ((tu@(c', n', t)) : r) res
           | c == c' = (r ++ (c', n', t + 1) : res, t + 1, n')
           | otherwise = add c n r (tu : res)
         add c n [] res = ((c, n, 1) : res, 1, "")

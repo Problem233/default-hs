@@ -18,18 +18,13 @@ library
   exposed-modules:     Lib
                      , Math
                      , Math.Rationa
-                     , Chemistry
                      , List
                      , IO
-                     , Dependent
-                     , L2
-                     , Data.Nat
-                     , Data.Fin
-                     , Data.Vect
-                     , Data.Singleton.SNat
+                     , Lambda2
                      , Parser
                      , ProjectEuler
                      , CodeWars
+                     , Vijos.P1042
   build-depends:       base >= 4.7 && < 5
                      , array
   default-language:    Haskell2010

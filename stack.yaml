@@ -3,5 +3,4 @@ extra-package-dbs: []
 packages:
 - .
 extra-deps: []
-arch: i386, x86_64
-resolver: lts-9.5
+resolver: lts-12.16

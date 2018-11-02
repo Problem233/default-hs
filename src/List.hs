@@ -12,7 +12,7 @@ splitOnString :: Eq a => [a] -> [a] -> [[a]]
 splitOnString _ [] = []
 splitOnString x xs = recursion (length x) xs
   where recursion _ [] = [[]]
-        recursion len xs @ (h : xs')
+        recursion len xs@(h : xs')
           | l == x = [] : recursion len r
           | otherwise = let (h' : xs'') = recursion len xs'
                          in (h : h') : xs''

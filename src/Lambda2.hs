@@ -1,5 +1,5 @@
 {-# LANGUAGE RankNTypes, TypeSynonymInstances, FlexibleInstances #-}
-module L2 (
+module Lambda2 (
   Bool, true, false, (&&), (||), not, xor, cond, pbool, bool,
   Nat, zero, succ, pred, inf, plus, minus, mult, exp,
   isZero, leq, eq, nat, int) where

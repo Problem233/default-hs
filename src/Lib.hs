@@ -1,13 +1,14 @@
 module Lib (
   count,
   qsortBy, qsort,
+  zipWithFoldable,
   splitLines, isLineTerminator,
   unicode,
   while,
   rotate,
   (<%>), (<++>)) where
 
-import Data.List (partition)
+import Data.List (foldl', partition)
 
 count :: (a -> Bool) -> [a] -> Int
 count c = length . filter c
@@ -21,6 +22,12 @@ qsortBy (x : xs) lt =
 qsort :: Ord a => [a] -> [a]
 qsort xs = xs `qsortBy` (<=)
 
+-- | /O(n)/, contains strict evalation.
+zipWithFoldable :: Foldable t => (a -> b -> c) -> [a] -> t b -> [c]
+zipWithFoldable zf xs ys = reverse $ snd $ foldl' zf' (xs, []) ys
+  where zf' (x : xs, res) y = (xs, zf x y : res)
+        zf' ([], res) _ = ([], res)
+
 splitLines :: String -> [String]
 splitLines str =
   let (pre, suf) = break isLineTerminator str
@@ -33,7 +40,8 @@ splitLines str =
 isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
 
-unicode :: [Char] -- 无视这个 hlint 建议
+{-# ANN unicode ("HLint: ignore Use String" :: String) #-}
+unicode :: [Char]
 unicode = ['\x0'..'\x10ffff']
 
 while :: a -> (a -> Bool) -> (a -> a) -> a

@@ -40,7 +40,7 @@ splitLines str =
 isLineTerminator :: Char -> Bool
 isLineTerminator c = (c == '\r') || (c == '\n')
 
-{-# ANN unicode ("HLint: ignore Use String" :: String) #-}
+{-# ANN unicode "HLint: ignore Use String" #-}
 unicode :: [Char]
 unicode = ['\x0'..'\x10ffff']
 

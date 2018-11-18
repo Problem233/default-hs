@@ -18,10 +18,9 @@ newtype Parser t = Parser { parse :: String -> Maybe (t, String) }
 
 -- 匹配一个任意字符
 item :: Parser Char
-item = Parser $ \cs ->
-         case cs of
-           [] -> Nothing
-           (c : r) -> Just (c, r)
+item = Parser $ \case
+        [] -> Nothing
+        (c : r) -> Just (c, r)
 
 instance Functor Parser where
   fmap f p = Parser $ \input -> p `parse` input <%> first f
@@ -48,10 +47,12 @@ satisfy p = do
   c <- item
   if p c then return c else mzero
 
+{-# ANN oneOf "HLint: ignore Use String" #-}
 -- 匹配给定的字符之一
-oneOf :: [Char] -> Parser Char -- 无视这个 hlint 建议
+oneOf :: [Char] -> Parser Char
 oneOf cs = satisfy $ flip elem cs
 
+{-# ANN noneOf "HLint: ignore Use String" #-}
 -- 匹配除了给定的字符以外的字符
 noneOf :: [Char] -> Parser Char -- 无视这个 hlint 建议
 noneOf cs = satisfy $ not . flip elem cs

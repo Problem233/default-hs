@@ -8,11 +8,8 @@ module Lib (
   Note, Score,
   tempo,
   shiftPitch, amplify,
-  noteAmp, note, notes,
-  playWith,
-  -- * Scores
-  twinkle,
-  test1, test2, test3, test4, test5) where
+  noteAmp, note, notes, melNotes,
+  playWith) where
 
 import Data.Char (isDigit)
 import Csound.Base as ReExportedModules hiding (tempo)
@@ -95,43 +92,8 @@ note = noteAmp 1
 notes :: String -> Score
 notes = mel . fmap note . filter (isDigit . head) . words
 
+melNotes :: [D] -> Score
+melNotes = mel . map (temp . (1,))
+
 playWith :: (RenderCsd a, SigSpace a, Sigs a) => Patch a -> Score -> IO ()
 playWith instr = dac . mix . atSco instr
-
-twinkle :: Score
-twinkle = tempo 100 $ mel $ notes <$> [pA, pB, pA]
-  where pA = "4C 4C | 4G 4G | 4A 4A | 4G~ - | 4F 4F | 4E 4E | 4D 4D | 4C~ - ||"
-        pB = "4G 4G | 4F 4F | 4E 4E | 4D~ - | 4G 4G | 4F 4F | 4E 4E | 4D~ - ||"
-
-test1 :: Score
-test1 = tempo 100 $ notes
-  "3A^ 3B^ 4C~~ - - | 3A^ 3B^ 4C~~ - - | 3B^ 4C^ 4D~~ - - | 4C^ 3B^ 3A~~ - - ||"
-
-test2 :: Score
-test2 = tempo 160 $ notes $ unwords [
-  "4F 4C^ 4F 5C^ 0^ 4B~ 4A^~~~~ |",
-  "4E^ 4F^ 4G^ 4F^ 0^ 4E^ 0^ 4D^ 0^ 4E^ 0^ 4F. 4G ||"]
-
-test3 :: Score
-test3 = tempo 120 $ notes $ unwords [
-  "4C^ 3B^ | 4C~ - 3F 4C | 4D 4C^ 3B 4C. | 3A~~~ - - - |",
-  "0 0 0 3A^ 3B^ | 4C~ - 3B 4C | 4D 4C^ 4D 4F. | 4E 4D^ 4C^~~~~ - - |",
-  "0 0 4C^ 4D^ 4E | 4E 4D^ 4E^~~~~~~ - - | - 4D 4E 4A |",
-    "4G 4E^^ 4D^^ 4C^~~~~ - - |",
-  "0 0 0 4C^ 3B^ | 3A^~~~~ 4C^ 4E | 4D 4C^ 3B 4C. | 3A~~~ - - - ||"]
-
--- suggested patches:
--- noisyChoir, caveOvertonePad, sunriseAccordeon, bhumiLofi 80
-test4 :: Score
-test4 = shiftPitch (-5) $ tempo 160 $ mel $ notes <$> [pA, pB, pA, pC]
-  where
-    pA = "4A. 4A. 4A | 4G. 4G. 4G | 4A. 4A. 4A | 4G. 4G. 4G ||"
-    pB = "5C. 5C. 5C | 4A. 4A. 4A | 4G. 4G. 4G | 4F. 4F. 4E ||"
-    pC = "5C. 5C. 5C | 4A. 4A. 4A | 5C. 5C. 5C | 5D. 5D. 5D ||"
-
-test5 :: Score
-test5 = tempo 140 $ mel [
-          pA, notes "0^ 4E^", pB, notes "4G^ 4A^",
-          pB, notes "0^ 4A^", pA, notes "4D^ 4C^"]
-  where pA = mel [note "4C^", noteAmp 0.3 "4E^", loopBy 6 $ notes "0^ 4E^"]
-        pB = mel [note "4D^", noteAmp 0.3 "4F^", loopBy 6 $ notes "0^ 4F^"]

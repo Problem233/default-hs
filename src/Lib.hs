@@ -6,13 +6,14 @@ module Lib (
   myWind,
   spinFull, spin,
   Note, Score,
-  tempo,
+  bpm,
   shiftPitch, amplify,
   noteAmp, note, notes, melNotes,
   playWith) where
 
 import Data.Char (isDigit)
-import Csound.Base as ReExportedModules hiding (tempo)
+
+import Csound.Base as ReExportedModules
 import Csound.Patch as ReExportedModules
 
 renderSnd :: RenderCsd a => String -> FormatType -> a -> IO ()
@@ -48,10 +49,10 @@ spin base f x = at (\x' -> base * x + (1 - base) * x') (spinFull f x)
 type Note = CsdNote D
 type Score = Sco Note
 
--- | Sets the tempo of a score.
+-- | Sets the bpm of a score.
 -- Shouldn't be applied to a score twice.
-tempo :: D -> Score -> Score
-tempo t = str (60 / sig t)
+bpm :: D -> Score -> Score
+bpm t = str (60 / sig t)
 
 -- | Shift the pitch of a score by semitone.
 -- eg.
@@ -70,7 +71,7 @@ noteAmp amp s = case head s of
   where dot = case last s of
                 '.' -> str 1.5 $ reduce $ init s
                 _ -> extend s
-        extend s = 
+        extend s =
           case last s of
             '~' -> let (len, s') = span (== '~') $ reverse s
                     in str (sig $ int $ 1 + length len) $ reduce $ reverse s'
